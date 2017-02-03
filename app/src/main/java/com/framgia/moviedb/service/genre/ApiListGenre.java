@@ -1,7 +1,6 @@
 package com.framgia.moviedb.service.genre;
 
 import com.framgia.moviedb.data.model.Genre;
-import com.framgia.moviedb.service.ApiCore;
 import com.framgia.moviedb.util.ApiUtil;
 import com.google.gson.annotations.SerializedName;
 
@@ -18,7 +17,6 @@ import retrofit2.http.QueryMap;
  * Package: com.framgia.moviedb.service.movie
  */
 public class ApiListGenre {
-
     public interface ListGenres {
         @GET("genre/movie/list")
         Call<Response> loadGenres(@QueryMap HashMap<String, String> options);
