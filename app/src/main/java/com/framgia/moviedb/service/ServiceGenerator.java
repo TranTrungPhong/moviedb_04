@@ -9,12 +9,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Package: com.framgia.moviedb.service
  */
 public class ServiceGenerator {
-
     private static Retrofit.Builder sBuilder =
         new Retrofit.Builder()
             .baseUrl(ApiCore.BASE_URL)
             .addConverterFactory(GsonConverterFactory.create());
-
     private static Retrofit sRetrofit = sBuilder.build();
 
     public static <T> T createService(Class<T> serviceClass) {
