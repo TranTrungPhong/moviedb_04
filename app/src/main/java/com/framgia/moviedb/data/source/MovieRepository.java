@@ -46,6 +46,10 @@ public class MovieRepository implements DataSource<Movie> {
                 mMovieRemoteDataSource.getDatas(type, page, new GetCallback<Movie>() {
                     @Override
                     public void onLoaded(List<Movie> datas) {
+                        for (Movie movie : datas) {
+                            movie.setFavorite(getFavorite(movie));
+                            saveData(type, movie);
+                        }
                         getCallback.onLoaded(datas);
                     }
 
@@ -60,6 +64,16 @@ public class MovieRepository implements DataSource<Movie> {
 
     @Override
     public void saveData(@Nullable String type, Movie data) {
-        // TODO: add data to model
+        mMovieLocalDataSource.saveData(type, data);
+    }
+
+    @Override
+    public void deleteAllData(@Nullable String type) {
+        mMovieLocalDataSource.deleteAllData(type);
+    }
+
+    @Override
+    public boolean getFavorite(Movie data) {
+        return mMovieLocalDataSource.getFavorite(data);
     }
 }

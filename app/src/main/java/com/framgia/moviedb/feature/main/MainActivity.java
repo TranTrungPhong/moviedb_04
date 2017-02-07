@@ -38,22 +38,22 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onGenresLoaded(List<Genre> genres) {
-        // TODO: update genre view 
+        // TODO: update genre view
     }
 
     @Override
     public void onNowPlayingMoviesLoaded(List<Movie> movies) {
-        // TODO: update now playing movie 
+        // TODO: update now playing movie
     }
 
     @Override
     public void onPopularMoviesLoaded(List<Movie> movies) {
-        // TODO: update popular movie 
+        // TODO: update popular movie
     }
 
     @Override
     public void onTopRatedMoviesLoaded(List<Movie> movies) {
-        // TODO: update top rated movie 
+        // TODO: update top rated movie
     }
 
     @Override

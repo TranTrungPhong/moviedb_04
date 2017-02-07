@@ -47,6 +47,8 @@ public class GenreRepository implements DataSource<Genre> {
                     @Override
                     public void onLoaded(List<Genre> datas) {
                         getCallback.onLoaded(datas);
+                        deleteAllData(type);
+                        for (Genre genre : datas) saveData(type, genre);
                     }
 
                     @Override
@@ -60,6 +62,16 @@ public class GenreRepository implements DataSource<Genre> {
 
     @Override
     public void saveData(@Nullable String type, Genre data) {
-        // TODO: add data to model
+        mGenreLocalDataSource.saveData(type, data);
+    }
+
+    @Override
+    public void deleteAllData(@Nullable String type) {
+        mGenreLocalDataSource.deleteAllData(type);
+    }
+
+    @Override
+    public boolean getFavorite(Genre data) {
+        return false;
     }
 }

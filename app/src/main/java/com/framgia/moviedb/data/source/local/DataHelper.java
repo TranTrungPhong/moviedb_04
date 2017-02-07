@@ -20,8 +20,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 public class DataHelper extends SQLiteOpenHelper {
-    public static final int DATABASE_VERSION = 1;
-    public static final String DATABASE_NAME = "Movies.db";
+    private static final int DATABASE_VERSION = 1;
+    private static final String DATABASE_NAME = "Movies.db";
     public static final int TRUE_VALUE = 1;
     private static final String TEXT_TYPE = " TEXT";
     private static final String BOOLEAN_TYPE = " INTEGER";
@@ -41,8 +41,10 @@ public class DataHelper extends SQLiteOpenHelper {
             MoviePersistenceContract.MovieEntry.COLUMN_NAME_POSTER + TEXT_TYPE + COMMA_SEP +
             MoviePersistenceContract.MovieEntry.COLUMN_NAME_OVERVIEW + TEXT_TYPE + COMMA_SEP +
             MoviePersistenceContract.MovieEntry.COLUMN_NAME_RATE_AVG + TEXT_TYPE + COMMA_SEP +
-            MoviePersistenceContract.MovieEntry.COLUMN_NAME_FAVORITE + BOOLEAN_TYPE +
-            " )";
+            MoviePersistenceContract.MovieEntry.COLUMN_NAME_FAVORITE + BOOLEAN_TYPE + COMMA_SEP +
+            " UNIQUE(" + MoviePersistenceContract.MovieEntry.COLUMN_NAME_ENTRY_ID + COMMA_SEP +
+            MoviePersistenceContract.MovieEntry.COLUMN_NAME_TYPE +
+            "))";
     private static final String SQL_DROP_GENRE_ENTRIES =
         "DROP TABLE IF EXISTS " + GenrePersistenceContract.GenreEntry.TABLE_NAME;
     private static final String SQL_DROP_MOVIE_ENTRIES =

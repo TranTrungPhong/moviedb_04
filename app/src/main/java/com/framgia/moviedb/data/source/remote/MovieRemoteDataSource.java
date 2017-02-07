@@ -55,4 +55,13 @@ public class MovieRemoteDataSource implements DataSource<Movie> {
     public void saveData(@Nullable String type, Movie data) {
         // TODO: add data to model
     }
+
+    @Override
+    public void deleteAllData(@Nullable String type) {
+    }
+
+    @Override
+    public boolean getFavorite(Movie data) {
+        return false;
+    }
 }

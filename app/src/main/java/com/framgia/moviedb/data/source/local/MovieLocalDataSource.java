@@ -1,5 +1,6 @@
 package com.framgia.moviedb.data.source.local;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -64,6 +65,72 @@ public class MovieLocalDataSource implements DataSource<Movie> {
 
     @Override
     public void saveData(@Nullable String type, Movie data) {
-        // TODO: save data to sqlite
+        SQLiteDatabase db = mDataHelper.getWritableDatabase();
+        db.beginTransaction();
+        try {
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(
+                MoviePersistenceContract.MovieEntry.COLUMN_NAME_ENTRY_ID, data.getId());
+            contentValues.put(
+                MoviePersistenceContract.MovieEntry.COLUMN_NAME_TITLE, data.getTitle());
+            contentValues.put(
+                MoviePersistenceContract.MovieEntry.COLUMN_NAME_TYPE, type);
+            contentValues.put(
+                MoviePersistenceContract.MovieEntry.COLUMN_NAME_POSTER, data.getPoster());
+            contentValues.put(
+                MoviePersistenceContract.MovieEntry.COLUMN_NAME_OVERVIEW, data.getOverview());
+            contentValues.put(
+                MoviePersistenceContract.MovieEntry.COLUMN_NAME_RATE_AVG, data.getVoteAverage());
+            contentValues.put(
+                MoviePersistenceContract.MovieEntry.COLUMN_NAME_FAVORITE, data.isFavorite());
+            int check = (int) db.insertWithOnConflict(
+                MoviePersistenceContract.MovieEntry.TABLE_NAME, null, contentValues,
+                SQLiteDatabase.CONFLICT_IGNORE);
+            if (check == -1) {
+                String selection =
+                    MoviePersistenceContract.MovieEntry.COLUMN_NAME_ENTRY_ID + " = ?";
+                String[] selectionArgs = {String.valueOf(data.getId())};
+                db.update(
+                    MoviePersistenceContract.MovieEntry.TABLE_NAME, contentValues,
+                    selection, selectionArgs);
+            }
+            db.setTransactionSuccessful();
+        } catch (Exception e) {
+            //Error in between database transaction
+        } finally {
+            db.endTransaction();
+            db.close();
+        }
+    }
+
+    @Override
+    public void deleteAllData(@Nullable String type) {
+        SQLiteDatabase db = mDataHelper.getWritableDatabase();
+        String whereClause =
+            MoviePersistenceContract.MovieEntry.COLUMN_NAME_TYPE + " LIKE ?" +
+                " AND " + MoviePersistenceContract.MovieEntry.COLUMN_NAME_FAVORITE + "!=" +
+                DataHelper.TRUE_VALUE;
+        String[] whereClauseArgs = {type};
+        db.delete(
+            MoviePersistenceContract.MovieEntry.TABLE_NAME, whereClause, whereClauseArgs);
+        db.close();
+    }
+
+    @Override
+    public boolean getFavorite(Movie data) {
+        SQLiteDatabase db = mDataHelper.getWritableDatabase();
+        boolean isFavorite = false;
+        String selection =
+            MoviePersistenceContract.MovieEntry.COLUMN_NAME_ENTRY_ID + " LIKE ?" +
+                MoviePersistenceContract.MovieEntry.COLUMN_NAME_FAVORITE + "!=" +
+                DataHelper.TRUE_VALUE;
+        String[] selectionArgs = {String.valueOf(data.getId())};
+        Cursor cursor = db.query(
+            MoviePersistenceContract.MovieEntry.TABLE_NAME,
+            null, selection, selectionArgs, null, null, null);
+        if (cursor != null && cursor.getCount() > 0) isFavorite = true;
+        if (cursor != null) cursor.close();
+        db.close();
+        return isFavorite;
     }
 }
