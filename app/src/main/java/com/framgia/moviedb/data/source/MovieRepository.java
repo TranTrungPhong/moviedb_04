@@ -7,6 +7,8 @@ import com.framgia.moviedb.data.model.Movie;
 import com.framgia.moviedb.data.source.local.MovieLocalDataSource;
 import com.framgia.moviedb.data.source.remote.MovieRemoteDataSource;
 
+import java.util.List;
+
 /**
  * Created by tuannt on 03/02/2017.
  * Project: moviedb_04
@@ -31,9 +33,29 @@ public class MovieRepository implements DataSource<Movie> {
     }
 
     @Override
-    public void getDatas(@Nullable String type, @Nullable String page,
-                         GetCallback getCallback) {
-        mMovieRemoteDataSource.getDatas(type, page, getCallback);
+    public void getDatas(@Nullable final String type, @Nullable final String page,
+                         final GetCallback getCallback) {
+        mMovieLocalDataSource.getDatas(type, page, new GetCallback<Movie>() {
+            @Override
+            public void onLoaded(List<Movie> datas) {
+                getCallback.onLoaded(datas);
+            }
+
+            @Override
+            public void onNotAvailable() {
+                mMovieRemoteDataSource.getDatas(type, page, new GetCallback<Movie>() {
+                    @Override
+                    public void onLoaded(List<Movie> datas) {
+                        getCallback.onLoaded(datas);
+                    }
+
+                    @Override
+                    public void onNotAvailable() {
+                        getCallback.onNotAvailable();
+                    }
+                });
+            }
+        });
     }
 
     @Override
