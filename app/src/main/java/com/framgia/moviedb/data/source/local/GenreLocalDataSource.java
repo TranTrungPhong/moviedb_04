@@ -1,5 +1,6 @@
 package com.framgia.moviedb.data.source.local;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -55,6 +56,33 @@ public class GenreLocalDataSource implements DataSource<Genre> {
 
     @Override
     public void saveData(@Nullable String type, Genre data) {
-        // TODO: save data to sqlite
+        SQLiteDatabase db = mDataHelper.getWritableDatabase();
+        db.beginTransaction();
+        try {
+            ContentValues contentValues = new ContentValues();
+            contentValues.put(
+                GenrePersistenceContract.GenreEntry.COLUMN_NAME_ENTRY_ID, data.getId());
+            contentValues.put(
+                GenrePersistenceContract.GenreEntry.COLUMN_NAME_TITLE, data.getName());
+            db.insert(GenrePersistenceContract.GenreEntry.TABLE_NAME, null, contentValues);
+            db.setTransactionSuccessful();
+        } catch (Exception e) {
+            //Error in between database transaction
+        } finally {
+            db.endTransaction();
+            db.close();
+        }
+    }
+
+    @Override
+    public void deleteAllData(@Nullable String type) {
+        SQLiteDatabase db = mDataHelper.getWritableDatabase();
+        db.delete(GenrePersistenceContract.GenreEntry.TABLE_NAME, null, null);
+        db.close();
+    }
+
+    @Override
+    public boolean getFavorite(Genre data) {
+        return false;
     }
 }

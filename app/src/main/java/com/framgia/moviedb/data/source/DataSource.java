@@ -16,4 +16,6 @@ public interface DataSource<T> {
     }
     void getDatas(@Nullable String type, @Nullable String page, GetCallback getCallback);
     void saveData(@Nullable String type, T data);
+    void deleteAllData(@Nullable String type);
+    boolean getFavorite(T data);
 }

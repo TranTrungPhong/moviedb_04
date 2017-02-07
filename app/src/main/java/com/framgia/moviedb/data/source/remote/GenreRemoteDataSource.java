@@ -53,4 +53,13 @@ public class GenreRemoteDataSource implements DataSource<Genre> {
     public void saveData(@Nullable String type, Genre data) {
         // TODO: add data to model
     }
+
+    @Override
+    public void deleteAllData(@Nullable String type) {
+    }
+
+    @Override
+    public boolean getFavorite(Genre data) {
+        return false;
+    }
 }
