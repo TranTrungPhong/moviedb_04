@@ -3,7 +3,6 @@ package com.framgia.moviedb.feature.main;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
 
 import com.framgia.moviedb.R;
 import com.framgia.moviedb.data.model.Genre;
@@ -24,16 +23,17 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         mMainBinding =
             DataBindingUtil.setContentView(this, R.layout.activity_main);
+        mMainBinding.setIsLoading(true);
         mMainPresenter = new MainPresenter(
             this,
-            GenreRepository.getInstance(),
-            MovieRepository.getInstance());
+            GenreRepository.getInstance(this),
+            MovieRepository.getInstance(this));
         mMainPresenter.start();
     }
 
     @Override
     public void onSuccess() {
-        mMainBinding.progressLoading.setVisibility(View.GONE);
+        mMainBinding.setIsLoading(false);
     }
 
     @Override

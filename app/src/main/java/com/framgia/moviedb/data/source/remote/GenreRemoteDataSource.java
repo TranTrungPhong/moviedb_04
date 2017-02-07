@@ -50,7 +50,7 @@ public class GenreRemoteDataSource implements DataSource<Genre> {
     }
 
     @Override
-    public void saveData(Genre data) {
+    public void saveData(@Nullable String type, Genre data) {
         // TODO: add data to model
     }
 }

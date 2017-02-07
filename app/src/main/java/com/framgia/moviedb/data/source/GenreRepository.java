@@ -1,10 +1,13 @@
 package com.framgia.moviedb.data.source;
 
+import android.content.Context;
 import android.support.annotation.Nullable;
 
 import com.framgia.moviedb.data.model.Genre;
 import com.framgia.moviedb.data.source.local.GenreLocalDataSource;
 import com.framgia.moviedb.data.source.remote.GenreRemoteDataSource;
+
+import java.util.List;
 
 /**
  * Created by tuannt on 03/02/2017.
@@ -16,10 +19,10 @@ public class GenreRepository implements DataSource<Genre> {
     private DataSource mGenreRemoteDataSource;
     private DataSource mGenreLocalDataSource;
 
-    public static GenreRepository getInstance() {
+    public static GenreRepository getInstance(Context context) {
         if (sGenreRepository == null)
             return new GenreRepository(GenreRemoteDataSource.getInstance(),
-                GenreLocalDataSource.getInstance());
+                GenreLocalDataSource.getInstance(context));
         return sGenreRepository;
     }
 
@@ -30,13 +33,33 @@ public class GenreRepository implements DataSource<Genre> {
     }
 
     @Override
-    public void getDatas(@Nullable String type, @Nullable String page,
-                         GetCallback getCallback) {
-        mGenreRemoteDataSource.getDatas(type, page, getCallback);
+    public void getDatas(@Nullable final String type, @Nullable final String page,
+                         final GetCallback getCallback) {
+        mGenreLocalDataSource.getDatas(type, page, new GetCallback<Genre>() {
+            @Override
+            public void onLoaded(List<Genre> datas) {
+                getCallback.onLoaded(datas);
+            }
+
+            @Override
+            public void onNotAvailable() {
+                mGenreRemoteDataSource.getDatas(type, page, new GetCallback<Genre>() {
+                    @Override
+                    public void onLoaded(List<Genre> datas) {
+                        getCallback.onLoaded(datas);
+                    }
+
+                    @Override
+                    public void onNotAvailable() {
+                        getCallback.onNotAvailable();
+                    }
+                });
+            }
+        });
     }
 
     @Override
-    public void saveData(Genre data) {
+    public void saveData(@Nullable String type, Genre data) {
         // TODO: add data to model
     }
 }

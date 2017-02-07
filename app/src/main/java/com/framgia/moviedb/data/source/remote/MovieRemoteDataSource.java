@@ -52,7 +52,7 @@ public class MovieRemoteDataSource implements DataSource<Movie> {
     }
 
     @Override
-    public void saveData(Movie data) {
+    public void saveData(@Nullable String type, Movie data) {
         // TODO: add data to model
     }
 }

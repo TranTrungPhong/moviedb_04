@@ -1,5 +1,6 @@
 package com.framgia.moviedb.data.source;
 
+import android.content.Context;
 import android.support.annotation.Nullable;
 
 import com.framgia.moviedb.data.model.Movie;
@@ -16,10 +17,10 @@ public class MovieRepository implements DataSource<Movie> {
     private DataSource mMovieRemoteDataSource;
     private DataSource mMovieLocalDataSource;
 
-    public static MovieRepository getInstance() {
+    public static MovieRepository getInstance(Context context) {
         if (sMovieRepository == null)
             return new MovieRepository(MovieRemoteDataSource.getInstance(),
-                MovieLocalDataSource.getInstance());
+                MovieLocalDataSource.getInstance(context));
         return sMovieRepository;
     }
 
@@ -36,7 +37,7 @@ public class MovieRepository implements DataSource<Movie> {
     }
 
     @Override
-    public void saveData(Movie data) {
+    public void saveData(@Nullable String type, Movie data) {
         // TODO: add data to model
     }
 }
