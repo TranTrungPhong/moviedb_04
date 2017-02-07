@@ -31,6 +31,7 @@ public class MainPresenter implements
 
     @Override
     public void start() {
+        mMainView.onPrepare();
         loadGenres();
         loadNowPlayingMovies(String.valueOf(mFirstPage));
         loadPopularMovies(String.valueOf(mFirstPage));

@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">MovieDb</string>
-    <string name="welcome_splash">Welcome!</string>
-    <string name="title_moviedb">MOVIEDB</string>
-    <string name="dev_name">by Nguyen Thanh Tuan</string>
+    <string name="message_retry">Check your connection and try again.</string>
+    <string name="action_retry">retry</string>
 </resources>

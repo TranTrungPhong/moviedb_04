@@ -13,12 +13,13 @@ import java.util.List;
  */
 public interface MainContract {
     interface View {
-        void onSuccess();
         void onGenresLoaded(List<Genre> genres);
         void onNowPlayingMoviesLoaded(List<Movie> movies);
         void onPopularMoviesLoaded(List<Movie> movies);
         void onTopRatedMoviesLoaded(List<Movie> movies);
         void onUpComingMoviesLoaded(List<Movie> movies);
+        void onPrepare();
+        void onSuccess();
         void onError();
     }
 

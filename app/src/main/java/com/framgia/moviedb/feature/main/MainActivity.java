@@ -23,7 +23,6 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         mMainBinding =
             DataBindingUtil.setContentView(this, R.layout.activity_main);
-        mMainBinding.setIsLoading(true);
         mMainPresenter = new MainPresenter(
             this,
             GenreRepository.getInstance(this),
@@ -62,7 +61,15 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
+    public void onPrepare() {
+        mMainBinding.setIsLoading(true);
+        mMainBinding.setIsError(false);
+    }
+
+    @Override
     public void onError() {
-        // TODO: notify error for user
+        mMainBinding.setIsLoading(false);
+        mMainBinding.setIsError(true);
+        mMainBinding.setMainPresenter(mMainPresenter);
     }
 }
