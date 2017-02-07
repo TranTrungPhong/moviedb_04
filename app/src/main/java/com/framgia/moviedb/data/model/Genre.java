@@ -1,5 +1,8 @@
 package com.framgia.moviedb.data.model;
 
+import android.database.Cursor;
+
+import com.framgia.moviedb.data.source.local.GenrePersistenceContract;
 import com.google.gson.annotations.SerializedName;
 
 /**
@@ -12,6 +15,13 @@ public class Genre {
     private int mId;
     @SerializedName("name")
     private String mName;
+
+    public Genre(Cursor cursor) {
+        mId = cursor.getInt(
+            cursor.getColumnIndexOrThrow(GenrePersistenceContract.GenreEntry.COLUMN_NAME_ENTRY_ID));
+        mName = cursor.getString(
+            cursor.getColumnIndexOrThrow(GenrePersistenceContract.GenreEntry.COLUMN_NAME_TITLE));
+    }
 
     public int getId() {
         return mId;

@@ -1,5 +1,6 @@
 package com.framgia.moviedb.data.source.local;
 
+import android.content.Context;
 import android.support.annotation.Nullable;
 
 import com.framgia.moviedb.data.model.Movie;
@@ -13,12 +14,12 @@ import com.framgia.moviedb.data.source.DataSource;
 public class MovieLocalDataSource implements DataSource<Movie> {
     private static MovieLocalDataSource sMovieLocalDataSource;
 
-    private MovieLocalDataSource() {
+    private MovieLocalDataSource(Context context) {
     }
 
-    public static MovieLocalDataSource getInstance() {
+    public static MovieLocalDataSource getInstance(Context context) {
         if (sMovieLocalDataSource == null)
-            return new MovieLocalDataSource();
+            return new MovieLocalDataSource(context);
         return sMovieLocalDataSource;
     }
 
@@ -29,7 +30,7 @@ public class MovieLocalDataSource implements DataSource<Movie> {
     }
 
     @Override
-    public void saveData(Movie data) {
+    public void saveData(@Nullable String type, Movie data) {
         // TODO: save data to sqlite
     }
 }

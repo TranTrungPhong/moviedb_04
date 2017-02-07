@@ -15,5 +15,5 @@ public interface DataSource<T> {
         void onNotAvailable();
     }
     void getDatas(@Nullable String type, @Nullable String page, GetCallback getCallback);
-    void saveData(T data);
+    void saveData(@Nullable String type, T data);
 }
