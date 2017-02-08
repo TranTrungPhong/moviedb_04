@@ -21,6 +21,7 @@ public interface MainContract {
         void onPrepare();
         void onSuccess();
         void onError();
+        void showGenreDetailsUi(Genre genre);
     }
 
     interface Presenter extends BasePresenter {
@@ -30,5 +31,6 @@ public interface MainContract {
         void loadTopRatedMovies(String page);
         void loadUpComingMovies(String page);
         void checkState();
+        void openGenreDetails(Genre genre);
     }
 }
