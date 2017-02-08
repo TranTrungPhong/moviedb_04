@@ -3,6 +3,7 @@ package com.framgia.moviedb.feature.main;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
 
 import com.framgia.moviedb.R;
 import com.framgia.moviedb.data.model.Genre;
@@ -10,6 +11,7 @@ import com.framgia.moviedb.data.model.Movie;
 import com.framgia.moviedb.data.source.GenreRepository;
 import com.framgia.moviedb.data.source.MovieRepository;
 import com.framgia.moviedb.databinding.ActivityMainBinding;
+import com.framgia.moviedb.ui.adapter.GenreAdapter;
 
 import java.util.List;
 
@@ -37,7 +39,11 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onGenresLoaded(List<Genre> genres) {
-        // TODO: update genre view
+        GenreAdapter genreAdapter = new GenreAdapter(this, genres);
+        mMainBinding.recyclerGenres.setAdapter(genreAdapter);
+        mMainBinding.recyclerGenres.setLayoutManager(
+            new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        mMainBinding.recyclerGenres.setHasFixedSize(true);
     }
 
     @Override
