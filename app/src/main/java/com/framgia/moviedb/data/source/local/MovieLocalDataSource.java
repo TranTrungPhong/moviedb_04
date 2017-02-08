@@ -121,7 +121,7 @@ public class MovieLocalDataSource implements DataSource<Movie> {
         SQLiteDatabase db = mDataHelper.getWritableDatabase();
         boolean isFavorite = false;
         String selection =
-            MoviePersistenceContract.MovieEntry.COLUMN_NAME_ENTRY_ID + " LIKE ?" +
+            MoviePersistenceContract.MovieEntry.COLUMN_NAME_ENTRY_ID + " LIKE ?" + " AND " +
                 MoviePersistenceContract.MovieEntry.COLUMN_NAME_FAVORITE + "!=" +
                 DataHelper.TRUE_VALUE;
         String[] selectionArgs = {String.valueOf(data.getId())};

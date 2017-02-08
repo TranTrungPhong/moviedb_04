@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android">
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:bind="http://schemas.android.com/apk/res-auto">
 
     <data>
 
@@ -8,6 +9,14 @@
         <variable
             name="isLoading"
             type="boolean"/>
+
+        <variable
+            name="isError"
+            type="boolean"/>
+
+        <variable
+            name="mainPresenter"
+            type="com.framgia.moviedb.feature.main.MainContract.Presenter"/>
     </data>
 
     <RelativeLayout
@@ -22,6 +31,15 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:visibility="@{isLoading ? View.VISIBLE : View.GONE}"/>
+
+        <include
+            android:id="@+id/linear_retry"
+            layout="@layout/retry_notification"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            bind:isVisible="@{isError}"
+            bind:presenter="@{mainPresenter}"/>
 
     </RelativeLayout>
 </layout>
