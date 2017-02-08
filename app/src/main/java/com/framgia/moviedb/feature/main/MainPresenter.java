@@ -129,4 +129,9 @@ public class MainPresenter implements
         mState++;
         if (mState == GET_DATA_DONE) mMainView.onSuccess();
     }
+
+    @Override
+    public void openGenreDetails(Genre genre) {
+        mMainView.showGenreDetailsUi(genre);
+    }
 }

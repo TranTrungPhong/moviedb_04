@@ -1,5 +1,6 @@
 package com.framgia.moviedb.feature.main;
 
+import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +12,7 @@ import com.framgia.moviedb.data.model.Movie;
 import com.framgia.moviedb.data.source.GenreRepository;
 import com.framgia.moviedb.data.source.MovieRepository;
 import com.framgia.moviedb.databinding.ActivityMainBinding;
+import com.framgia.moviedb.feature.movies.MoviesActivity;
 import com.framgia.moviedb.ui.adapter.GenreAdapter;
 
 import java.util.List;
@@ -39,7 +41,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onGenresLoaded(List<Genre> genres) {
-        GenreAdapter genreAdapter = new GenreAdapter(this, genres);
+        GenreAdapter genreAdapter = new GenreAdapter(this, genres, mMainPresenter);
         mMainBinding.recyclerGenres.setAdapter(genreAdapter);
         mMainBinding.recyclerGenres.setLayoutManager(
             new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
@@ -77,5 +79,11 @@ public class MainActivity extends AppCompatActivity
         mMainBinding.setIsLoading(false);
         mMainBinding.setIsError(true);
         mMainBinding.setMainPresenter(mMainPresenter);
+    }
+
+    @Override
+    public void showGenreDetailsUi(Genre genre) {
+        startActivity(
+            MoviesActivity.getMoviesIntent(this, MoviesActivity.EXTRA_KEY, genre));
     }
 }

@@ -9,16 +9,19 @@ import android.view.ViewGroup;
 import com.framgia.moviedb.R;
 import com.framgia.moviedb.data.model.Genre;
 import com.framgia.moviedb.databinding.ItemGenreBinding;
+import com.framgia.moviedb.feature.main.MainContract;
 
 import java.util.List;
 
 public class GenreAdapter extends RecyclerView.Adapter<GenreAdapter.ViewHolder> {
     private List<Genre> mGenres;
     private LayoutInflater mLayoutInflater;
+    private MainContract.Presenter mListener;
 
-    public GenreAdapter(Context context, List<Genre> genres) {
+    public GenreAdapter(Context context, List<Genre> genres, MainContract.Presenter listener) {
         mGenres = genres;
         mLayoutInflater = LayoutInflater.from(context);
+        mListener = listener;
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
@@ -31,6 +34,9 @@ public class GenreAdapter extends RecyclerView.Adapter<GenreAdapter.ViewHolder> 
 
         void bindData(Genre genre) {
             if (genre == null) return;
+            GenreItemActionHandler itemActionHandler =
+                new GenreItemActionHandler(mListener);
+            mItemGenreBinding.setHandler(itemActionHandler);
             mItemGenreBinding.setGenre(genre);
             mItemGenreBinding.executePendingBindings();
         }

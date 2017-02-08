@@ -6,6 +6,10 @@
         <variable
             name="genre"
             type="com.framgia.moviedb.data.model.Genre"/>
+
+        <variable
+            name="handler"
+            type="com.framgia.moviedb.ui.adapter.GenreItemActionHandler"/>
     </data>
 
     <TextView
@@ -21,5 +25,6 @@
         android:paddingTop="@dimen/dp_8"
         android:text="@{genre.name}"
         android:textAllCaps="true"
-        android:textColor="@android:color/white"/>
+        android:textColor="@android:color/white"
+        android:onClick="@{() -> handler.genreClicked(genre)}"/>
 </layout>
