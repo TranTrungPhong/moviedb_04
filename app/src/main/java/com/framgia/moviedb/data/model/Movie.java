@@ -4,6 +4,7 @@ import android.database.Cursor;
 
 import com.framgia.moviedb.data.source.local.DataHelper;
 import com.framgia.moviedb.data.source.local.MoviePersistenceContract;
+import com.framgia.moviedb.service.ApiCore;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
@@ -133,5 +134,9 @@ public class Movie {
 
     public void setVoteAverage(String voteAverage) {
         mVoteAverage = voteAverage;
+    }
+
+    public String getFullPosterUrl() {
+        return ApiCore.BASE_IMAGE_URL + getPoster();
     }
 }

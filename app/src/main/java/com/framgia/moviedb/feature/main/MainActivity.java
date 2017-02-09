@@ -1,6 +1,5 @@
 package com.framgia.moviedb.feature.main;
 
-import android.content.Intent;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -14,6 +13,7 @@ import com.framgia.moviedb.data.source.MovieRepository;
 import com.framgia.moviedb.databinding.ActivityMainBinding;
 import com.framgia.moviedb.feature.movies.MoviesActivity;
 import com.framgia.moviedb.ui.adapter.GenreAdapter;
+import com.framgia.moviedb.ui.adapter.HorizontalMovieAdapter;
 
 import java.util.List;
 
@@ -50,22 +50,50 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onNowPlayingMoviesLoaded(List<Movie> movies) {
-        // TODO: update now playing movie
+        HorizontalMovieAdapter nowPlayingAdapter =
+            new HorizontalMovieAdapter(this, movies, mMainPresenter);
+        mMainBinding.linearNowPlaying.recyclerView.setAdapter(nowPlayingAdapter);
+        mMainBinding.linearNowPlaying.textCategory.setText(
+            getResources().getText(R.string.title_now_playing));
+        mMainBinding.linearNowPlaying.recyclerView.setLayoutManager(
+            new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        mMainBinding.linearNowPlaying.recyclerView.setHasFixedSize(true);
     }
 
     @Override
     public void onPopularMoviesLoaded(List<Movie> movies) {
-        // TODO: update popular movie
+        HorizontalMovieAdapter popularAdapter =
+            new HorizontalMovieAdapter(this, movies, mMainPresenter);
+        mMainBinding.linearPopular.recyclerView.setAdapter(popularAdapter);
+        mMainBinding.linearPopular.textCategory.setText(
+            getResources().getText(R.string.title_popular));
+        mMainBinding.linearPopular.recyclerView.setLayoutManager(
+            new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        mMainBinding.linearPopular.recyclerView.setHasFixedSize(true);
     }
 
     @Override
     public void onTopRatedMoviesLoaded(List<Movie> movies) {
-        // TODO: update top rated movie
+        HorizontalMovieAdapter topRatedAdapter =
+            new HorizontalMovieAdapter(this, movies, mMainPresenter);
+        mMainBinding.linearTopRated.recyclerView.setAdapter(topRatedAdapter);
+        mMainBinding.linearTopRated.textCategory.setText(
+            getResources().getText(R.string.title_top_rated));
+        mMainBinding.linearTopRated.recyclerView.setLayoutManager(
+            new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        mMainBinding.linearTopRated.recyclerView.setHasFixedSize(true);
     }
 
     @Override
     public void onUpComingMoviesLoaded(List<Movie> movies) {
-        // TODO: update upcoming movie
+        HorizontalMovieAdapter upcomingAdapter =
+            new HorizontalMovieAdapter(this, movies, mMainPresenter);
+        mMainBinding.linearUpcoming.recyclerView.setAdapter(upcomingAdapter);
+        mMainBinding.linearUpcoming.textCategory.setText(
+            getResources().getText(R.string.title_upcoming));
+        mMainBinding.linearUpcoming.recyclerView.setLayoutManager(
+            new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false));
+        mMainBinding.linearUpcoming.recyclerView.setHasFixedSize(true);
     }
 
     @Override

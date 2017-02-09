@@ -39,6 +39,38 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/dp_16"/>
+
+                <include
+                    android:id="@+id/linear_now_playing"
+                    layout="@layout/horizontal_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_12"
+                    bind:isLoading="@{isError ? isError : isLoading}"/>
+
+                <include
+                    android:id="@+id/linear_popular"
+                    layout="@layout/horizontal_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_12"
+                    bind:isLoading="@{isError ? isError : isLoading}"/>
+
+                <include
+                    android:id="@+id/linear_top_rated"
+                    layout="@layout/horizontal_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_12"
+                    bind:isLoading="@{isError ? isError : isLoading}"/>
+
+                <include
+                    android:id="@+id/linear_upcoming"
+                    layout="@layout/horizontal_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/dp_12"
+                    bind:isLoading="@{isError ? isError : isLoading}"/>
             </LinearLayout>
 
         </android.support.v4.widget.NestedScrollView>
