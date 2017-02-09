@@ -1,6 +1,7 @@
 package com.framgia.moviedb.feature.main;
 
 import com.framgia.moviedb.BasePresenter;
+import com.framgia.moviedb.BaseView;
 import com.framgia.moviedb.data.model.Genre;
 import com.framgia.moviedb.data.model.Movie;
 
@@ -12,7 +13,7 @@ import java.util.List;
  * Package: com.framgia.moviedb.feature.splash
  */
 public interface MainContract {
-    interface View {
+    interface View extends BaseView {
         void onGenresLoaded(List<Genre> genres);
         void onNowPlayingMoviesLoaded(List<Movie> movies);
         void onPopularMoviesLoaded(List<Movie> movies);
@@ -22,6 +23,7 @@ public interface MainContract {
         void onSuccess();
         void onError();
         void showGenreDetailsUi(Genre genre);
+        void onRefreshDone();
     }
 
     interface Presenter extends BasePresenter {
@@ -32,5 +34,6 @@ public interface MainContract {
         void loadUpComingMovies(String page);
         void checkState();
         void openGenreDetails(Genre genre);
+        void refresh();
     }
 }

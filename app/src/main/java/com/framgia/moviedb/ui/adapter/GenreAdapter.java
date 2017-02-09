@@ -11,17 +11,24 @@ import com.framgia.moviedb.data.model.Genre;
 import com.framgia.moviedb.databinding.ItemGenreBinding;
 import com.framgia.moviedb.feature.main.MainContract;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class GenreAdapter extends RecyclerView.Adapter<GenreAdapter.ViewHolder> {
-    private List<Genre> mGenres;
+    private List<Genre> mGenres = new ArrayList<>();
     private LayoutInflater mLayoutInflater;
     private MainContract.Presenter mListener;
 
     public GenreAdapter(Context context, List<Genre> genres, MainContract.Presenter listener) {
-        mGenres = genres;
+        if (genres != null) mGenres.addAll(genres);
         mLayoutInflater = LayoutInflater.from(context);
         mListener = listener;
+    }
+
+    public void updateData(List<Genre> genres) {
+        mGenres.clear();
+        mGenres.addAll(genres);
+        notifyDataSetChanged();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {

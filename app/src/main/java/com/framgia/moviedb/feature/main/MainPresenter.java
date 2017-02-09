@@ -3,6 +3,7 @@ package com.framgia.moviedb.feature.main;
 import com.framgia.moviedb.data.model.Genre;
 import com.framgia.moviedb.data.model.Movie;
 import com.framgia.moviedb.data.source.DataSource;
+import com.framgia.moviedb.data.source.MovieRepository;
 import com.framgia.moviedb.service.movie.ApiListMovie;
 
 import java.util.List;
@@ -17,9 +18,9 @@ public class MainPresenter implements
     private MainContract.View mMainView;
     private DataSource mGenreRepository;
     private DataSource mMovieRepository;
-    private int mFirstPage = 1;
     private int mState = 0;
     private static final int GET_DATA_DONE = 5;
+    private boolean mIsRefresh;
 
     public MainPresenter(MainContract.View mainView,
                          DataSource genreRepository,
@@ -32,16 +33,13 @@ public class MainPresenter implements
     @Override
     public void start() {
         mMainView.onPrepare();
-        loadGenres();
-        loadNowPlayingMovies(String.valueOf(mFirstPage));
-        loadPopularMovies(String.valueOf(mFirstPage));
-        loadTopRatedMovies(String.valueOf(mFirstPage));
-        loadUpComingMovies(String.valueOf(mFirstPage));
+        loadData(MovieRepository.FIRST_PAGE);
     }
 
     @Override
     public void loadGenres() {
-        mGenreRepository.getDatas(null, null,
+        String page = mIsRefresh ? MovieRepository.FIRST_PAGE : null;
+        mGenreRepository.getDatas(null, page,
             new DataSource.GetCallback<Genre>() {
                 @Override
                 public void onLoaded(List<Genre> datas) {
@@ -51,7 +49,8 @@ public class MainPresenter implements
 
                 @Override
                 public void onNotAvailable() {
-                    mMainView.onError();
+                    if (!mIsRefresh) mMainView.onError();
+                    checkState();
                 }
             });
     }
@@ -68,7 +67,8 @@ public class MainPresenter implements
 
                 @Override
                 public void onNotAvailable() {
-                    mMainView.onError();
+                    if (!mIsRefresh) mMainView.onError();
+                    checkState();
                 }
             });
     }
@@ -85,7 +85,8 @@ public class MainPresenter implements
 
                 @Override
                 public void onNotAvailable() {
-                    mMainView.onError();
+                    if (!mIsRefresh) mMainView.onError();
+                    checkState();
                 }
             });
     }
@@ -102,7 +103,8 @@ public class MainPresenter implements
 
                 @Override
                 public void onNotAvailable() {
-                    mMainView.onError();
+                    if (!mIsRefresh) mMainView.onError();
+                    checkState();
                 }
             });
     }
@@ -119,7 +121,8 @@ public class MainPresenter implements
 
                 @Override
                 public void onNotAvailable() {
-                    mMainView.onError();
+                    if (!mIsRefresh) mMainView.onError();
+                    checkState();
                 }
             });
     }
@@ -127,11 +130,30 @@ public class MainPresenter implements
     @Override
     public void checkState() {
         mState++;
-        if (mState == GET_DATA_DONE) mMainView.onSuccess();
+        if (mState == GET_DATA_DONE) {
+            mIsRefresh = false;
+            mMainView.onSuccess();
+            mMainView.onRefreshDone();
+        }
     }
 
     @Override
     public void openGenreDetails(Genre genre) {
         mMainView.showGenreDetailsUi(genre);
+    }
+
+    @Override
+    public void refresh() {
+        mIsRefresh = true;
+        loadData(MovieRepository.REFRESH_PAGE);
+    }
+
+    private void loadData(String page) {
+        mState = 0;
+        loadGenres();
+        loadNowPlayingMovies(page);
+        loadPopularMovies(page);
+        loadTopRatedMovies(page);
+        loadUpComingMovies(page);
     }
 }

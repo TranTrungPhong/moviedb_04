@@ -35,29 +35,19 @@ public class GenreRepository implements DataSource<Genre> {
     @Override
     public void getDatas(@Nullable final String type, @Nullable final String page,
                          final GetCallback getCallback) {
-        mGenreLocalDataSource.getDatas(type, page, new GetCallback<Genre>() {
-            @Override
-            public void onLoaded(List<Genre> datas) {
-                getCallback.onLoaded(datas);
-            }
+        if (page == null)
+            mGenreLocalDataSource.getDatas(type, page, new GetCallback<Genre>() {
+                @Override
+                public void onLoaded(List<Genre> datas) {
+                    getCallback.onLoaded(datas);
+                }
 
-            @Override
-            public void onNotAvailable() {
-                mGenreRemoteDataSource.getDatas(type, page, new GetCallback<Genre>() {
-                    @Override
-                    public void onLoaded(List<Genre> datas) {
-                        getCallback.onLoaded(datas);
-                        deleteAllData(type);
-                        for (Genre genre : datas) saveData(type, genre);
-                    }
-
-                    @Override
-                    public void onNotAvailable() {
-                        getCallback.onNotAvailable();
-                    }
-                });
-            }
-        });
+                @Override
+                public void onNotAvailable() {
+                    getDataFromRemote(type, page, getCallback);
+                }
+            });
+        else getDataFromRemote(type, page, getCallback);
     }
 
     @Override
@@ -73,5 +63,22 @@ public class GenreRepository implements DataSource<Genre> {
     @Override
     public boolean getFavorite(Genre data) {
         return false;
+    }
+
+    private void getDataFromRemote(@Nullable final String type, @Nullable final String page,
+                                   final GetCallback getCallback) {
+        mGenreRemoteDataSource.getDatas(type, page, new GetCallback<Genre>() {
+            @Override
+            public void onLoaded(List<Genre> datas) {
+                getCallback.onLoaded(datas);
+                deleteAllData(type);
+                for (Genre genre : datas) saveData(type, genre);
+            }
+
+            @Override
+            public void onNotAvailable() {
+                getCallback.onNotAvailable();
+            }
+        });
     }
 }
