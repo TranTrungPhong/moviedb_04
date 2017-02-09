@@ -2,4 +2,9 @@
     <string name="app_name">MovieDb</string>
     <string name="message_retry">Check your connection and try again.</string>
     <string name="action_retry">retry</string>
+    <string name="action_more">More</string>
+    <string name="title_now_playing">Now Playing Movies</string>
+    <string name="title_popular">Popular Movies</string>
+    <string name="title_top_rated">Top Rated Movies</string>
+    <string name="title_upcoming">Upcoming Movies</string>
 </resources>

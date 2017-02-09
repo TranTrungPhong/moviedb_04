@@ -9,7 +9,7 @@ import com.framgia.moviedb.BuildConfig;
  */
 public class ApiCore {
     public static final String BASE_URL = "https://api.themoviedb.org/3/";
-    static final String BASE_IMAGE_URL = "https://image.tmdb.org/t/p/w500";
+    public static final String BASE_IMAGE_URL = "https://image.tmdb.org/t/p/w500";
     private static final String KEY = BuildConfig.API_KEY;
 
     public class Param {
