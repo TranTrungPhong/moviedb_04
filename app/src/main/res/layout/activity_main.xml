@@ -25,55 +25,64 @@
         android:layout_height="match_parent"
         tools:context="com.framgia.moviedb.feature.main.MainActivity">
 
-        <android.support.v4.widget.NestedScrollView
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/swipe_refresh"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_width="match_parent">
+            android:onRefresh="@{mainPresenter}"
+            android:setCustomColor="@{true}">
 
-            <LinearLayout
+            <android.support.v4.widget.NestedScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_height="wrap_content">
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/recycler_genres"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dp_16"/>
+                    android:orientation="vertical">
 
-                <include
-                    android:id="@+id/linear_now_playing"
-                    layout="@layout/horizontal_list"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dp_12"
-                    bind:isLoading="@{isError ? isError : isLoading}"/>
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recycler_genres"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_12"/>
 
-                <include
-                    android:id="@+id/linear_popular"
-                    layout="@layout/horizontal_list"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dp_12"
-                    bind:isLoading="@{isError ? isError : isLoading}"/>
+                    <include
+                        android:id="@+id/linear_now_playing"
+                        layout="@layout/horizontal_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_12"
+                        bind:isLoading="@{isError ? isError : isLoading}"/>
 
-                <include
-                    android:id="@+id/linear_top_rated"
-                    layout="@layout/horizontal_list"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dp_12"
-                    bind:isLoading="@{isError ? isError : isLoading}"/>
+                    <include
+                        android:id="@+id/linear_popular"
+                        layout="@layout/horizontal_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_12"
+                        bind:isLoading="@{isError ? isError : isLoading}"/>
 
-                <include
-                    android:id="@+id/linear_upcoming"
-                    layout="@layout/horizontal_list"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dp_12"
-                    bind:isLoading="@{isError ? isError : isLoading}"/>
-            </LinearLayout>
+                    <include
+                        android:id="@+id/linear_top_rated"
+                        layout="@layout/horizontal_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_12"
+                        bind:isLoading="@{isError ? isError : isLoading}"/>
 
-        </android.support.v4.widget.NestedScrollView>
+                    <include
+                        android:id="@+id/linear_upcoming"
+                        layout="@layout/horizontal_list"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_12"
+                        bind:isLoading="@{isError ? isError : isLoading}"/>
+                </LinearLayout>
+
+            </android.support.v4.widget.NestedScrollView>
+
+        </android.support.v4.widget.SwipeRefreshLayout>
 
         <ProgressBar
             android:id="@+id/progress_loading"

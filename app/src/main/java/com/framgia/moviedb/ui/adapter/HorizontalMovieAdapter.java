@@ -11,19 +11,26 @@ import com.framgia.moviedb.data.model.Movie;
 import com.framgia.moviedb.databinding.ItemHorizontalMovieBinding;
 import com.framgia.moviedb.feature.main.MainContract;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class HorizontalMovieAdapter
     extends RecyclerView.Adapter<HorizontalMovieAdapter.ViewHolder> {
-    private List<Movie> mMovies;
+    private List<Movie> mMovies = new ArrayList<>();
     private LayoutInflater mLayoutInflater;
     private MainContract.Presenter mListener;
 
     public HorizontalMovieAdapter(Context context, List<Movie> movies,
                                   MainContract.Presenter listener) {
-        mMovies = movies;
+        if (movies != null) mMovies.addAll(movies);
         mLayoutInflater = LayoutInflater.from(context);
         mListener = listener;
+    }
+
+    public void updateData(List<Movie> movies) {
+        mMovies.clear();
+        if (movies != null) mMovies.addAll(movies);
+        notifyDataSetChanged();
     }
 
     class ViewHolder extends RecyclerView.ViewHolder {
