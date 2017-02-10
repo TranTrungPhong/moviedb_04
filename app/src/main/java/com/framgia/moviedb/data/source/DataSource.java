@@ -18,4 +18,5 @@ public interface DataSource<T> {
     void saveData(@Nullable String type, T data);
     void deleteAllData(@Nullable String type);
     boolean getFavorite(T data);
+    void updateFavorite(@Nullable String type, T data);
 }

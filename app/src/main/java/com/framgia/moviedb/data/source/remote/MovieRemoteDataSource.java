@@ -64,4 +64,8 @@ public class MovieRemoteDataSource implements DataSource<Movie> {
     public boolean getFavorite(Movie data) {
         return false;
     }
+
+    @Override
+    public void updateFavorite(@Nullable String type, Movie data) {
+    }
 }

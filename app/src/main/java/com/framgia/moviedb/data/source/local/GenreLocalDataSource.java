@@ -85,4 +85,8 @@ public class GenreLocalDataSource implements DataSource<Genre> {
     public boolean getFavorite(Genre data) {
         return false;
     }
+
+    @Override
+    public void updateFavorite(@Nullable String type, Genre data) {
+    }
 }

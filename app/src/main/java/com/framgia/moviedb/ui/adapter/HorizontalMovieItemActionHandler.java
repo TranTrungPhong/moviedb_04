@@ -8,22 +8,14 @@ import com.framgia.moviedb.feature.main.MainContract;
  * Project: moviedb_04
  * Package: com.framgia.moviedb.ui.adapter
  */
-public class MovieItemActionHandler {
+public class HorizontalMovieItemActionHandler {
     private MainContract.Presenter mListener;
 
-    public MovieItemActionHandler(MainContract.Presenter listener) {
+    public HorizontalMovieItemActionHandler(MainContract.Presenter listener) {
         mListener = listener;
-    }
-
-    public void listMovieClicked(String type) {
-        mListener.openListDetails(type);
     }
 
     public void movieClicked(Movie movie) {
         mListener.openMovieDetails(movie);
-    }
-
-    public void updateFavorite(Movie movie) {
-        movie.setFavorite(!movie.isFavorite());
     }
 }

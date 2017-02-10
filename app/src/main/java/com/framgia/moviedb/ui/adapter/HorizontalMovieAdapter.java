@@ -43,8 +43,8 @@ public class HorizontalMovieAdapter
 
         void bindData(Movie movie) {
             if (movie == null) return;
-            MovieItemActionHandler movieItemActionHandler =
-                new MovieItemActionHandler(mListener);
+            HorizontalMovieItemActionHandler movieItemActionHandler =
+                new HorizontalMovieItemActionHandler(mListener);
             mItemHorizontalMovieBinding.setHandler(movieItemActionHandler);
             mItemHorizontalMovieBinding.setMovie(movie);
             mItemHorizontalMovieBinding.executePendingBindings();
