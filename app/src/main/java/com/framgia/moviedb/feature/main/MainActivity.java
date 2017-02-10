@@ -4,6 +4,9 @@ import android.databinding.DataBindingUtil;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.SearchView;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import com.framgia.moviedb.R;
 import com.framgia.moviedb.data.model.Genre;
@@ -18,12 +21,13 @@ import com.framgia.moviedb.ui.adapter.HorizontalMovieAdapter;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity
-    implements MainContract.View {
+    implements MainContract.View, SearchView.OnQueryTextListener {
     private MainContract.Presenter mMainPresenter;
     private ActivityMainBinding mMainBinding;
     private GenreAdapter mGenreAdapter;
     private HorizontalMovieAdapter mNowPlayingAdapter, mPopularAdapter,
         mTopRatedAdapter, mUpcomingAdapter;
+    private SearchView mSearchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -145,7 +149,36 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void showGenreDetailsUi(Genre genre) {
         startActivity(
-            MoviesActivity.getMoviesIntent(this, MoviesActivity.EXTRA_KEY, genre));
+            MoviesActivity.getMoviesIntent(this, MoviesActivity.EXTRA_GENRES, genre));
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        mSearchView = (SearchView) searchItem.getActionView();
+        mSearchView.setOnQueryTextListener(this);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.action_favorite) {
+            startActivity(MoviesActivity.getMoviesIntent(this, MoviesActivity.EXTRA_FAVORITE));
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        startActivity(MoviesActivity.getMoviesIntent(this, MoviesActivity.EXTRA_SEARCH, query));
+        mSearchView.onActionViewCollapsed();
+        return true;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        return true;
     }
 
     @Override
