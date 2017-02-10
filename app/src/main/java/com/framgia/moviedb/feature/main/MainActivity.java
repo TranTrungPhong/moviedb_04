@@ -8,12 +8,14 @@ import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.framgia.moviedb.Constant;
 import com.framgia.moviedb.R;
 import com.framgia.moviedb.data.model.Genre;
 import com.framgia.moviedb.data.model.Movie;
 import com.framgia.moviedb.data.source.GenreRepository;
 import com.framgia.moviedb.data.source.MovieRepository;
 import com.framgia.moviedb.databinding.ActivityMainBinding;
+import com.framgia.moviedb.feature.moviedetail.MovieDetailActivity;
 import com.framgia.moviedb.feature.movies.MoviesActivity;
 import com.framgia.moviedb.ui.adapter.GenreAdapter;
 import com.framgia.moviedb.ui.adapter.HorizontalMovieAdapter;
@@ -149,7 +151,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void showGenreDetailsUi(Genre genre) {
         startActivity(
-            MoviesActivity.getMoviesIntent(this, MoviesActivity.EXTRA_GENRES, genre));
+            MoviesActivity.getMoviesIntent(this, Constant.IntentKey.EXTRA_GENRES, genre));
     }
 
     @Override
@@ -164,14 +166,14 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_favorite) {
-            startActivity(MoviesActivity.getMoviesIntent(this, MoviesActivity.EXTRA_FAVORITE));
+            startActivity(MoviesActivity.getMoviesIntent(this, Constant.IntentKey.EXTRA_FAVORITE));
         }
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public boolean onQueryTextSubmit(String query) {
-        startActivity(MoviesActivity.getMoviesIntent(this, MoviesActivity.EXTRA_SEARCH, query));
+        startActivity(MoviesActivity.getMoviesIntent(this, Constant.IntentKey.EXTRA_SEARCH, query));
         mSearchView.onActionViewCollapsed();
         return true;
     }
@@ -179,6 +181,16 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onQueryTextChange(String newText) {
         return true;
+    }
+
+    @Override
+    public void showMovieDetailsUi(Movie movie) {
+        startActivity(MovieDetailActivity.getMovieDetailIntent(this, movie));
+    }
+
+    @Override
+    public void showListDetailsUi(String type) {
+        startActivity(MoviesActivity.getMoviesIntent(this, type));
     }
 
     @Override
