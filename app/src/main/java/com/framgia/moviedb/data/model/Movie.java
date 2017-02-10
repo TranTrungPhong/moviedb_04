@@ -1,15 +1,19 @@
 package com.framgia.moviedb.data.model;
 
 import android.database.Cursor;
+import android.databinding.BaseObservable;
+import android.databinding.Bindable;
 
+import com.framgia.moviedb.BR;
 import com.framgia.moviedb.data.source.local.DataHelper;
 import com.framgia.moviedb.data.source.local.MoviePersistenceContract;
 import com.framgia.moviedb.service.ApiCore;
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Movie {
+public class Movie extends BaseObservable implements Serializable {
     @SerializedName("genres")
     private List<Genre> mGenres;
     @SerializedName("id")
@@ -120,12 +124,14 @@ public class Movie {
         mTitle = title;
     }
 
+    @Bindable
     public boolean isFavorite() {
         return mIsFavorite;
     }
 
     public void setFavorite(boolean favorite) {
         mIsFavorite = favorite;
+        notifyPropertyChanged(BR.favorite);
     }
 
     public String getVoteAverage() {

@@ -23,6 +23,8 @@ public interface MainContract {
         void onSuccess();
         void onError();
         void showGenreDetailsUi(Genre genre);
+        void showMovieDetailsUi(Movie movie);
+        void showListDetailsUi(String type);
         void onRefreshDone();
     }
 
@@ -34,6 +36,8 @@ public interface MainContract {
         void loadUpComingMovies(String page);
         void checkState();
         void openGenreDetails(Genre genre);
+        void openMovieDetails(Movie movie);
+        void openListDetails(String type);
         void refresh();
     }
 }

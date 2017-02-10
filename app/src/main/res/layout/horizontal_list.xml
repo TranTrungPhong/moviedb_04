@@ -8,6 +8,14 @@
         <variable
             name="isLoading"
             type="boolean"/>
+
+        <variable
+            name="type"
+            type="String"/>
+
+        <variable
+            name="mainPresenter"
+            type="com.framgia.moviedb.feature.main.MainContract.Presenter"/>
     </data>
 
     <LinearLayout
@@ -20,6 +28,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:onClick="@{() -> mainPresenter.openListDetails(type)}"
             style="@style/Widget.AppCompat.Button.Borderless">
 
             <TextView

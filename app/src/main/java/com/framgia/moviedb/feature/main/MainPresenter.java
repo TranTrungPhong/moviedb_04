@@ -143,6 +143,16 @@ public class MainPresenter implements
     }
 
     @Override
+    public void openMovieDetails(Movie movie) {
+        mMainView.showMovieDetailsUi(movie);
+    }
+
+    @Override
+    public void openListDetails(String type) {
+        mMainView.showListDetailsUi(type);
+    }
+
+    @Override
     public void refresh() {
         mIsRefresh = true;
         loadData(MovieRepository.REFRESH_PAGE);
