@@ -14,10 +14,10 @@ import java.util.List;
  * Project: moviedb_04
  * Package: com.framgia.moviedb.data.source
  */
-public class MovieRepository implements DataSource<Movie> {
+public class MovieRepository implements MovieDataSource {
     private static MovieRepository sMovieRepository;
-    private DataSource mMovieRemoteDataSource;
-    private DataSource mMovieLocalDataSource;
+    private MovieDataSource mMovieRemoteDataSource;
+    private MovieDataSource mMovieLocalDataSource;
     public final static String LOCAL_PAGE = "1";
     public final static String REFRESH_PAGE = "0";
     public final static String FIRST_PAGE = "1";
@@ -36,14 +36,14 @@ public class MovieRepository implements DataSource<Movie> {
     }
 
     @Override
-    public void getDatas(@Nullable final String type, @Nullable final String page,
-                         final GetCallback getCallback) {
+    public void getMovies(@Nullable final String type, @Nullable final String page,
+                          final GetCallback getCallback) {
         switch (page) {
             case REFRESH_PAGE:
                 getDataFromRemote(type, FIRST_PAGE, getCallback);
                 break;
             case LOCAL_PAGE:
-                mMovieLocalDataSource.getDatas(type, page, new GetCallback<Movie>() {
+                mMovieLocalDataSource.getMovies(type, page, new GetCallback<Movie>() {
                     @Override
                     public void onLoaded(List<Movie> datas) {
                         getCallback.onLoaded(datas);
@@ -62,8 +62,8 @@ public class MovieRepository implements DataSource<Movie> {
     }
 
     @Override
-    public void saveData(@Nullable String type, Movie data) {
-        mMovieLocalDataSource.saveData(type, data);
+    public void saveMovie(@Nullable String type, Movie data) {
+        mMovieLocalDataSource.saveMovie(type, data);
     }
 
     @Override
@@ -81,15 +81,26 @@ public class MovieRepository implements DataSource<Movie> {
         mMovieLocalDataSource.updateFavorite(type, data);
     }
 
+    @Override
+    public void loadMovies(String type, @Nullable String idOrQuery, String page,
+                           GetCallback getCallback) {
+        // load list movies
+    }
+
+    @Override
+    public void loadFavorite(GetCallback getCallback) {
+        // load list favorite movies
+    }
+
     private void getDataFromRemote(@Nullable final String type, @Nullable final String page,
                                    final GetCallback getCallback) {
-        mMovieRemoteDataSource.getDatas(type, page, new GetCallback<Movie>() {
+        mMovieRemoteDataSource.getMovies(type, page, new GetCallback<Movie>() {
             @Override
             public void onLoaded(List<Movie> datas) {
                 for (Movie movie : datas) {
                     movie.setType(type);
                     movie.setFavorite(getFavorite(movie));
-                    if (FIRST_PAGE.equals(page)) saveData(type, movie);
+                    if (FIRST_PAGE.equals(page)) saveMovie(type, movie);
                 }
                 getCallback.onLoaded(datas);
             }

@@ -3,13 +3,13 @@ package com.framgia.moviedb.feature.movies;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 
 import com.framgia.moviedb.Constant;
 import com.framgia.moviedb.R;
 import com.framgia.moviedb.data.model.Genre;
+import com.framgia.moviedb.feature.BaseActivity;
 
-public class MoviesActivity extends AppCompatActivity {
+public class MoviesActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

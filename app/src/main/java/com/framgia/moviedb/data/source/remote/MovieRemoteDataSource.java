@@ -3,7 +3,7 @@ package com.framgia.moviedb.data.source.remote;
 import android.support.annotation.Nullable;
 
 import com.framgia.moviedb.data.model.Movie;
-import com.framgia.moviedb.data.source.DataSource;
+import com.framgia.moviedb.data.source.MovieDataSource;
 import com.framgia.moviedb.service.ServiceGenerator;
 import com.framgia.moviedb.service.movie.ApiListMovie;
 
@@ -16,7 +16,7 @@ import retrofit2.Response;
  * Project: moviedb_04
  * Package: com.framgia.moviedb.data.source.remote
  */
-public class MovieRemoteDataSource implements DataSource<Movie> {
+public class MovieRemoteDataSource implements MovieDataSource {
     private static MovieRemoteDataSource sMovieRemoteDataSource;
 
     private MovieRemoteDataSource() {
@@ -29,8 +29,8 @@ public class MovieRemoteDataSource implements DataSource<Movie> {
     }
 
     @Override
-    public void getDatas(@Nullable String type, @Nullable String page,
-                         final GetCallback getCallback) {
+    public void getMovies(@Nullable String type, @Nullable String page,
+                          final GetCallback getCallback) {
         ApiListMovie.ListMovies listMovies = ServiceGenerator
             .createService(ApiListMovie.ListMovies.class);
         Call<ApiListMovie.Response> call = listMovies.loadMovies(
@@ -52,12 +52,13 @@ public class MovieRemoteDataSource implements DataSource<Movie> {
     }
 
     @Override
-    public void saveData(@Nullable String type, Movie data) {
-        // TODO: add data to model
+    public void saveMovie(@Nullable String type, Movie data) {
+        // not require for remote
     }
 
     @Override
     public void deleteAllData(@Nullable String type) {
+        // not require for remote
     }
 
     @Override
@@ -67,5 +68,17 @@ public class MovieRemoteDataSource implements DataSource<Movie> {
 
     @Override
     public void updateFavorite(@Nullable String type, Movie data) {
+        // not require for remote
+    }
+
+    @Override
+    public void loadMovies(String type, @Nullable String idOrQuery, String page,
+                           GetCallback getCallback) {
+        // load movies in list screen
+    }
+
+    @Override
+    public void loadFavorite(GetCallback getCallback) {
+        // load favorite movies in list screen
     }
 }

@@ -3,13 +3,13 @@ package com.framgia.moviedb.feature.moviedetail;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 
 import com.framgia.moviedb.R;
 import com.framgia.moviedb.data.model.Movie;
+import com.framgia.moviedb.feature.BaseActivity;
 import com.framgia.moviedb.feature.movies.MoviesActivity;
 
-public class MovieDetailActivity extends AppCompatActivity {
+public class MovieDetailActivity extends BaseActivity {
     public static final String EXTRA_MOVIE = "EXTRA_MOVIE";
 
     @Override

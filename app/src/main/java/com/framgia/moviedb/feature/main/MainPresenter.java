@@ -3,6 +3,8 @@ package com.framgia.moviedb.feature.main;
 import com.framgia.moviedb.data.model.Genre;
 import com.framgia.moviedb.data.model.Movie;
 import com.framgia.moviedb.data.source.DataSource;
+import com.framgia.moviedb.data.source.GenreDataSource;
+import com.framgia.moviedb.data.source.MovieDataSource;
 import com.framgia.moviedb.data.source.MovieRepository;
 import com.framgia.moviedb.service.movie.ApiListMovie;
 
@@ -16,15 +18,15 @@ import java.util.List;
 public class MainPresenter implements
     MainContract.Presenter {
     private MainContract.View mMainView;
-    private DataSource mGenreRepository;
-    private DataSource mMovieRepository;
+    private GenreDataSource mGenreRepository;
+    private MovieDataSource mMovieRepository;
     private int mState = 0;
     private static final int GET_DATA_DONE = 5;
     private boolean mIsRefresh;
 
     public MainPresenter(MainContract.View mainView,
-                         DataSource genreRepository,
-                         DataSource movieRepository) {
+                         GenreDataSource genreRepository,
+                         MovieDataSource movieRepository) {
         mMainView = mainView;
         mGenreRepository = genreRepository;
         mMovieRepository = movieRepository;
@@ -38,8 +40,7 @@ public class MainPresenter implements
 
     @Override
     public void loadGenres() {
-        String page = mIsRefresh ? MovieRepository.FIRST_PAGE : null;
-        mGenreRepository.getDatas(null, page,
+        mGenreRepository.getGenres(mIsRefresh && mIsRefresh,
             new DataSource.GetCallback<Genre>() {
                 @Override
                 public void onLoaded(List<Genre> datas) {
@@ -57,7 +58,7 @@ public class MainPresenter implements
 
     @Override
     public void loadNowPlayingMovies(String page) {
-        mMovieRepository.getDatas(ApiListMovie.NOW_PLAYING, page,
+        mMovieRepository.getMovies(ApiListMovie.NOW_PLAYING, page,
             new DataSource.GetCallback<Movie>() {
                 @Override
                 public void onLoaded(List<Movie> datas) {
@@ -75,7 +76,7 @@ public class MainPresenter implements
 
     @Override
     public void loadPopularMovies(String page) {
-        mMovieRepository.getDatas(ApiListMovie.POPULAR, page,
+        mMovieRepository.getMovies(ApiListMovie.POPULAR, page,
             new DataSource.GetCallback<Movie>() {
                 @Override
                 public void onLoaded(List<Movie> datas) {
@@ -93,7 +94,7 @@ public class MainPresenter implements
 
     @Override
     public void loadTopRatedMovies(String page) {
-        mMovieRepository.getDatas(ApiListMovie.TOP_RATED, page,
+        mMovieRepository.getMovies(ApiListMovie.TOP_RATED, page,
             new DataSource.GetCallback<Movie>() {
                 @Override
                 public void onLoaded(List<Movie> datas) {
@@ -111,7 +112,7 @@ public class MainPresenter implements
 
     @Override
     public void loadUpComingMovies(String page) {
-        mMovieRepository.getDatas(ApiListMovie.UPCOMING, page,
+        mMovieRepository.getMovies(ApiListMovie.UPCOMING, page,
             new DataSource.GetCallback<Movie>() {
                 @Override
                 public void onLoaded(List<Movie> datas) {

@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.support.annotation.Nullable;
 
 import com.framgia.moviedb.data.model.Movie;
-import com.framgia.moviedb.data.source.DataSource;
+import com.framgia.moviedb.data.source.MovieDataSource;
 import com.framgia.moviedb.service.movie.ApiListMovie;
 
 import java.util.ArrayList;
@@ -18,7 +18,7 @@ import java.util.List;
  * Project: moviedb_04
  * Package: com.framgia.moviedb.data.source.local
  */
-public class MovieLocalDataSource implements DataSource<Movie> {
+public class MovieLocalDataSource implements MovieDataSource {
     private static MovieLocalDataSource sMovieLocalDataSource;
     private DataHelper mDataHelper;
 
@@ -33,8 +33,8 @@ public class MovieLocalDataSource implements DataSource<Movie> {
     }
 
     @Override
-    public void getDatas(@Nullable String type, @Nullable String page,
-                         GetCallback getCallback) {
+    public void getMovies(@Nullable String type, @Nullable String page,
+                          GetCallback getCallback) {
         List<Movie> movies = null;
         SQLiteDatabase db = mDataHelper.getReadableDatabase();
         String[] projection = new String[]{
@@ -65,7 +65,7 @@ public class MovieLocalDataSource implements DataSource<Movie> {
     }
 
     @Override
-    public void saveData(@Nullable String type, Movie data) {
+    public void saveMovie(@Nullable String type, Movie data) {
         SQLiteDatabase db = mDataHelper.getWritableDatabase();
         db.beginTransaction();
         try {
@@ -137,6 +137,15 @@ public class MovieLocalDataSource implements DataSource<Movie> {
 
     @Override
     public void updateFavorite(@Nullable String type, Movie data) {
-        saveData(type, data);
+        saveMovie(type, data);
+    }
+
+    @Override
+    public void loadMovies(String type, @Nullable String idOrQuery, String page,
+                           GetCallback getCallback) {
+    }
+
+    @Override
+    public void loadFavorite(GetCallback getCallback) {
     }
 }

@@ -4,10 +4,9 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.support.annotation.Nullable;
 
 import com.framgia.moviedb.data.model.Genre;
-import com.framgia.moviedb.data.source.DataSource;
+import com.framgia.moviedb.data.source.GenreDataSource;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +16,7 @@ import java.util.List;
  * Project: moviedb_04
  * Package: com.framgia.moviedb.data.source.local
  */
-public class GenreLocalDataSource implements DataSource<Genre> {
+public class GenreLocalDataSource implements GenreDataSource {
     private static GenreLocalDataSource sGenreLocalDataSource;
     private DataHelper mDataHelper;
 
@@ -32,8 +31,7 @@ public class GenreLocalDataSource implements DataSource<Genre> {
     }
 
     @Override
-    public void getDatas(@Nullable String type, @Nullable String page,
-                         GetCallback getCallback) {
+    public void getGenres(boolean isResfresh, GetCallback getCallback) {
         List<Genre> genres = null;
         SQLiteDatabase db = mDataHelper.getReadableDatabase();
         String[] projection = new String[]{
@@ -55,7 +53,7 @@ public class GenreLocalDataSource implements DataSource<Genre> {
     }
 
     @Override
-    public void saveData(@Nullable String type, Genre data) {
+    public void saveGenre(Genre data) {
         SQLiteDatabase db = mDataHelper.getWritableDatabase();
         db.beginTransaction();
         try {
@@ -75,18 +73,9 @@ public class GenreLocalDataSource implements DataSource<Genre> {
     }
 
     @Override
-    public void deleteAllData(@Nullable String type) {
+    public void deleteAllGenres() {
         SQLiteDatabase db = mDataHelper.getWritableDatabase();
         db.delete(GenrePersistenceContract.GenreEntry.TABLE_NAME, null, null);
         db.close();
-    }
-
-    @Override
-    public boolean getFavorite(Genre data) {
-        return false;
-    }
-
-    @Override
-    public void updateFavorite(@Nullable String type, Genre data) {
     }
 }
