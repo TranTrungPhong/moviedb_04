@@ -14,6 +14,7 @@ import java.io.Serializable;
 import java.util.List;
 
 public class Movie extends BaseObservable implements Serializable {
+    private static final String TYPE_DEFAULT = "default";
     @SerializedName("genres")
     private List<Genre> mGenres;
     @SerializedName("id")
@@ -35,7 +36,7 @@ public class Movie extends BaseObservable implements Serializable {
     @SerializedName("vote_average")
     private String mVoteAverage;
     private boolean mIsFavorite;
-    private String mType;
+    private String mType = TYPE_DEFAULT;
 
     public Movie(Cursor cursor) {
         mId = cursor.getInt(

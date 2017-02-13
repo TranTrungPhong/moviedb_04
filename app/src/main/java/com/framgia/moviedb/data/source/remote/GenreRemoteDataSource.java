@@ -1,9 +1,7 @@
 package com.framgia.moviedb.data.source.remote;
 
-import android.support.annotation.Nullable;
-
 import com.framgia.moviedb.data.model.Genre;
-import com.framgia.moviedb.data.source.DataSource;
+import com.framgia.moviedb.data.source.GenreDataSource;
 import com.framgia.moviedb.service.ServiceGenerator;
 import com.framgia.moviedb.service.genre.ApiListGenre;
 
@@ -16,7 +14,7 @@ import retrofit2.Response;
  * Project: moviedb_04
  * Package: com.framgia.moviedb.data.source.remote
  */
-public class GenreRemoteDataSource implements DataSource<Genre> {
+public class GenreRemoteDataSource implements GenreDataSource {
     private static GenreRemoteDataSource sGenreRemoteDataSource;
 
     private GenreRemoteDataSource() {
@@ -29,8 +27,7 @@ public class GenreRemoteDataSource implements DataSource<Genre> {
     }
 
     @Override
-    public void getDatas(@Nullable String type, @Nullable String page,
-                         final GetCallback getCallback) {
+    public void getGenres(boolean isRefresh, final GetCallback getCallback) {
         ApiListGenre.ListGenres listGenres = ServiceGenerator.createService(
             ApiListGenre.ListGenres.class);
         Call<ApiListGenre.Response> call = listGenres.loadGenres(ApiListGenre.param());
@@ -50,20 +47,12 @@ public class GenreRemoteDataSource implements DataSource<Genre> {
     }
 
     @Override
-    public void saveData(@Nullable String type, Genre data) {
-        // TODO: add data to model
+    public void saveGenre(Genre data) {
+        //not require for remote
     }
 
     @Override
-    public void deleteAllData(@Nullable String type) {
-    }
-
-    @Override
-    public boolean getFavorite(Genre data) {
-        return false;
-    }
-
-    @Override
-    public void updateFavorite(@Nullable String type, Genre data) {
+    public void deleteAllGenres() {
+        //not require for remote
     }
 }

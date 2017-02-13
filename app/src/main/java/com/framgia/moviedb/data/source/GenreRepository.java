@@ -1,7 +1,6 @@
 package com.framgia.moviedb.data.source;
 
 import android.content.Context;
-import android.support.annotation.Nullable;
 
 import com.framgia.moviedb.data.model.Genre;
 import com.framgia.moviedb.data.source.local.GenreLocalDataSource;
@@ -14,10 +13,10 @@ import java.util.List;
  * Project: moviedb_04
  * Package: com.framgia.moviedb.data.source
  */
-public class GenreRepository implements DataSource<Genre> {
+public class GenreRepository implements GenreDataSource {
     private static GenreRepository sGenreRepository;
-    private DataSource mGenreRemoteDataSource;
-    private DataSource mGenreLocalDataSource;
+    private GenreDataSource mGenreRemoteDataSource;
+    private GenreDataSource mGenreLocalDataSource;
 
     public static GenreRepository getInstance(Context context) {
         if (sGenreRepository == null)
@@ -33,10 +32,9 @@ public class GenreRepository implements DataSource<Genre> {
     }
 
     @Override
-    public void getDatas(@Nullable final String type, @Nullable final String page,
-                         final GetCallback getCallback) {
-        if (page == null)
-            mGenreLocalDataSource.getDatas(type, page, new GetCallback<Genre>() {
+    public void getGenres(final boolean isRefresh, final GetCallback getCallback) {
+        if (!isRefresh)
+            mGenreLocalDataSource.getGenres(isRefresh, new GetCallback<Genre>() {
                 @Override
                 public void onLoaded(List<Genre> datas) {
                     getCallback.onLoaded(datas);
@@ -44,39 +42,29 @@ public class GenreRepository implements DataSource<Genre> {
 
                 @Override
                 public void onNotAvailable() {
-                    getDataFromRemote(type, page, getCallback);
+                    getDataFromRemote(isRefresh, getCallback);
                 }
             });
-        else getDataFromRemote(type, page, getCallback);
+        else getDataFromRemote(isRefresh, getCallback);
     }
 
     @Override
-    public void saveData(@Nullable String type, Genre data) {
-        mGenreLocalDataSource.saveData(type, data);
+    public void saveGenre(Genre data) {
+        mGenreLocalDataSource.saveGenre(data);
     }
 
     @Override
-    public void deleteAllData(@Nullable String type) {
-        mGenreLocalDataSource.deleteAllData(type);
+    public void deleteAllGenres() {
+        mGenreLocalDataSource.deleteAllGenres();
     }
 
-    @Override
-    public boolean getFavorite(Genre data) {
-        return false;
-    }
-
-    @Override
-    public void updateFavorite(@Nullable String type, Genre data) {
-    }
-
-    private void getDataFromRemote(@Nullable final String type, @Nullable final String page,
-                                   final GetCallback getCallback) {
-        mGenreRemoteDataSource.getDatas(type, page, new GetCallback<Genre>() {
+    private void getDataFromRemote(boolean isRefresh, final GetCallback getCallback) {
+        mGenreRemoteDataSource.getGenres(isRefresh, new GetCallback<Genre>() {
             @Override
             public void onLoaded(List<Genre> datas) {
                 getCallback.onLoaded(datas);
-                deleteAllData(type);
-                for (Genre genre : datas) saveData(type, genre);
+                deleteAllGenres();
+                for (Genre genre : datas) saveGenre(genre);
             }
 
             @Override

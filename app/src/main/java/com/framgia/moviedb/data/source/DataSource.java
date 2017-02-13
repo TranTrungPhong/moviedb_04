@@ -1,7 +1,5 @@
 package com.framgia.moviedb.data.source;
 
-import android.support.annotation.Nullable;
-
 import java.util.List;
 
 /**
@@ -14,9 +12,4 @@ public interface DataSource<T> {
         void onLoaded(List<T> datas);
         void onNotAvailable();
     }
-    void getDatas(@Nullable String type, @Nullable String page, GetCallback getCallback);
-    void saveData(@Nullable String type, T data);
-    void deleteAllData(@Nullable String type);
-    boolean getFavorite(T data);
-    void updateFavorite(@Nullable String type, T data);
 }
