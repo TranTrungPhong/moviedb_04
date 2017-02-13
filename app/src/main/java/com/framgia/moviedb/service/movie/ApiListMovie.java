@@ -25,8 +25,26 @@ public class ApiListMovie {
                                   @QueryMap HashMap<String, String> options);
     }
 
-    private class Param {
+    public interface GenreMovies {
+        @GET("genre/{" + TYPE_LIST + "}" + "/movies")
+        Call<Response> loadMovies(@Path(TYPE_LIST) String type,
+                                  @QueryMap HashMap<String, String> options);
+    }
+
+    public interface CompanyMovies {
+        @GET("company/{" + TYPE_LIST + "}" + "/movies")
+        Call<Response> loadMovies(@Path(TYPE_LIST) String type,
+                                  @QueryMap HashMap<String, String> options);
+    }
+
+    public interface SearchMovies {
+        @GET("search/movie")
+        Call<Response> loadMovies(@QueryMap HashMap<String, String> options);
+    }
+
+    public class Param {
         static final String PAGE = "page";
+        public static final String QUERY = "query";
     }
 
     public class Response {

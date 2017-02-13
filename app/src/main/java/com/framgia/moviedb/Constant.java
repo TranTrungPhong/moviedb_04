@@ -6,6 +6,8 @@ package com.framgia.moviedb;
  * Package: com.framgia.moviedb
  */
 public class Constant {
+    public static final int MOVIES_ACTIVITY_REQUEST_CODE = 1;
+
     public class IntentKey {
         public static final String EXTRA_GENRES = "EXTRA_GENRES";
         public static final String EXTRA_KEY = "EXTRA_KEY";

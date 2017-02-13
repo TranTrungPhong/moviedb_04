@@ -7,4 +7,7 @@
     <string name="title_popular">Popular Movies</string>
     <string name="title_top_rated">Top Rated Movies</string>
     <string name="title_upcoming">Upcoming Movies</string>
+    <string name="title_favorite">Favorite</string>
+    <string name="title_search">Result for</string>
+    <string name="message_no_item">No item in favorite ^^</string>
 </resources>

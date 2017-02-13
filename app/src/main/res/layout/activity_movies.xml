@@ -1,10 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    android:id="@+id/activity_movies"
+<layout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.framgia.moviedb.feature.movies.MoviesActivity">
+    xmlns:bind="http://schemas.android.com/apk/res-auto">
 
-</RelativeLayout>
+    <data>
+
+        <import type="android.view.View"/>
+
+        <variable
+            name="title"
+            type="String"/>
+
+        <variable
+            name="isLoading"
+            type="boolean"/>
+
+        <variable
+            name="isError"
+            type="boolean"/>
+
+        <variable
+            name="presenter"
+            type="com.framgia.moviedb.feature.movies.MoviesContract.Presenter"/>
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/activity_movies"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <ProgressBar
+            android:id="@+id/progress_loading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="@{isLoading ? View.VISIBLE : View.GONE}"/>
+
+        <include
+            android:id="@+id/linear_retry"
+            layout="@layout/retry_notification"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            bind:isVisible="@{isError}"
+            bind:presenter="@{presenter}"/>
+
+        <TextView
+            android:id="@+id/text_message_no_item"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="@string/message_no_item"
+            android:textSize="@dimen/sp_24"
+            android:visibility="gone"/>
+
+    </RelativeLayout>
+</layout>
