@@ -3,9 +3,11 @@ package com.framgia.moviedb.data.source;
 import android.content.Context;
 import android.support.annotation.Nullable;
 
+import com.framgia.moviedb.Constant;
 import com.framgia.moviedb.data.model.Movie;
 import com.framgia.moviedb.data.source.local.MovieLocalDataSource;
 import com.framgia.moviedb.data.source.remote.MovieRemoteDataSource;
+import com.framgia.moviedb.service.movie.ApiListMovie;
 
 import java.util.List;
 
@@ -83,13 +85,53 @@ public class MovieRepository implements MovieDataSource {
 
     @Override
     public void loadMovies(String type, @Nullable String idOrQuery, String page,
-                           GetCallback getCallback) {
-        // load list movies
+                           final GetCallback getCallback) {
+        GetCallback<Movie> callback = new GetCallback<Movie>() {
+            @Override
+            public void onLoaded(List<Movie> datas) {
+                for (Movie movie : datas) {
+                    movie.setFavorite(getFavorite(movie));
+                }
+                getCallback.onLoaded(datas);
+            }
+
+            @Override
+            public void onNotAvailable() {
+                getCallback.onNotAvailable();
+            }
+        };
+        switch (type) {
+            case Constant.IntentKey.EXTRA_NOW_PLAYING_MOVIES:
+                getMovies(ApiListMovie.NOW_PLAYING, page, getCallback);
+                break;
+            case Constant.IntentKey.EXTRA_POPULAR_MOVIES:
+                getMovies(ApiListMovie.POPULAR, page, getCallback);
+                break;
+            case Constant.IntentKey.EXTRA_TOP_RATED_MOVIES:
+                getMovies(ApiListMovie.TOP_RATED, page, getCallback);
+                break;
+            case Constant.IntentKey.EXTRA_UPCOMING_MOVIES:
+                getMovies(ApiListMovie.UPCOMING, page, getCallback);
+                break;
+            case Constant.IntentKey.EXTRA_SEARCH:
+                mMovieRemoteDataSource.loadMovies(type, idOrQuery, page, callback);
+                break;
+            case Constant.IntentKey.EXTRA_GENRES:
+                mMovieRemoteDataSource.loadMovies(type, idOrQuery, page, callback);
+                break;
+            case Constant.IntentKey.EXTRA_FAVORITE:
+                loadFavorite(getCallback);
+                break;
+            case Constant.IntentKey.EXTRA_COMPANY:
+                mMovieRemoteDataSource.loadMovies(type, idOrQuery, page, callback);
+            default:
+                break;
+        }
     }
 
     @Override
     public void loadFavorite(GetCallback getCallback) {
-        // load list favorite movies
+        mMovieLocalDataSource.loadFavorite(getCallback);
     }
 
     private void getDataFromRemote(@Nullable final String type, @Nullable final String page,

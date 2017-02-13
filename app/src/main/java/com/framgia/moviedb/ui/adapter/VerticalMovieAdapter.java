@@ -127,7 +127,7 @@ public class VerticalMovieAdapter
     }
 
     public void removeLoading() {
-        if (getLastItem() == null) {
+        if (getItemCount() > 0 && getLastItem() == null) {
             mMovies.remove(mMovies.size() - 1);
             notifyItemRemoved(mMovies.size() - 1);
         }

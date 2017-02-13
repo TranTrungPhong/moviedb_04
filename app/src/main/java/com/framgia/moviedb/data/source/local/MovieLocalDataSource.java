@@ -75,7 +75,7 @@ public class MovieLocalDataSource implements MovieDataSource {
             contentValues.put(
                 MoviePersistenceContract.MovieEntry.COLUMN_NAME_TITLE, data.getTitle());
             contentValues.put(
-                MoviePersistenceContract.MovieEntry.COLUMN_NAME_TYPE, type);
+                MoviePersistenceContract.MovieEntry.COLUMN_NAME_TYPE, data.getType());
             contentValues.put(
                 MoviePersistenceContract.MovieEntry.COLUMN_NAME_POSTER, data.getPoster());
             contentValues.put(
@@ -147,5 +147,33 @@ public class MovieLocalDataSource implements MovieDataSource {
 
     @Override
     public void loadFavorite(GetCallback getCallback) {
+        List<Movie> movies = null;
+        SQLiteDatabase db = mDataHelper.getReadableDatabase();
+        String[] projection = new String[]{
+            MoviePersistenceContract.MovieEntry.COLUMN_NAME_ENTRY_ID,
+            MoviePersistenceContract.MovieEntry.COLUMN_NAME_TITLE,
+            MoviePersistenceContract.MovieEntry.COLUMN_NAME_POSTER,
+            MoviePersistenceContract.MovieEntry.COLUMN_NAME_OVERVIEW,
+            MoviePersistenceContract.MovieEntry.COLUMN_NAME_RATE_AVG,
+            MoviePersistenceContract.MovieEntry.COLUMN_NAME_FAVORITE,
+            MoviePersistenceContract.MovieEntry.COLUMN_NAME_TYPE
+        };
+        String selection = MoviePersistenceContract.MovieEntry.COLUMN_NAME_FAVORITE + " = ?";
+        String[] selectionArgs = {String.valueOf(DataHelper.TRUE_VALUE)};
+        Cursor cursor = db.query(
+            true,
+            MoviePersistenceContract.MovieEntry.TABLE_NAME,
+            projection, selection, selectionArgs,
+            MoviePersistenceContract.MovieEntry.COLUMN_NAME_ENTRY_ID, null,
+            null, null);
+        if (cursor != null && cursor.getCount() > 0) {
+            movies = new ArrayList<>();
+            while (cursor.moveToNext()) {
+                movies.add(new Movie(cursor));
+            }
+        }
+        if (cursor != null) cursor.close();
+        if (movies == null) getCallback.onNotAvailable();
+        else getCallback.onLoaded(movies);
     }
 }
