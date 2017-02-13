@@ -76,12 +76,18 @@ public class MovieRepository implements DataSource<Movie> {
         return mMovieLocalDataSource.getFavorite(data);
     }
 
+    @Override
+    public void updateFavorite(@Nullable String type, Movie data) {
+        mMovieLocalDataSource.updateFavorite(type, data);
+    }
+
     private void getDataFromRemote(@Nullable final String type, @Nullable final String page,
                                    final GetCallback getCallback) {
         mMovieRemoteDataSource.getDatas(type, page, new GetCallback<Movie>() {
             @Override
             public void onLoaded(List<Movie> datas) {
                 for (Movie movie : datas) {
+                    movie.setType(type);
                     movie.setFavorite(getFavorite(movie));
                     if (FIRST_PAGE.equals(page)) saveData(type, movie);
                 }

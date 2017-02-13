@@ -65,6 +65,10 @@ public class GenreRepository implements DataSource<Genre> {
         return false;
     }
 
+    @Override
+    public void updateFavorite(@Nullable String type, Genre data) {
+    }
+
     private void getDataFromRemote(@Nullable final String type, @Nullable final String page,
                                    final GetCallback getCallback) {
         mGenreRemoteDataSource.getDatas(type, page, new GetCallback<Genre>() {

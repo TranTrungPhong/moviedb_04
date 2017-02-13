@@ -43,7 +43,8 @@ public class MovieLocalDataSource implements DataSource<Movie> {
             MoviePersistenceContract.MovieEntry.COLUMN_NAME_POSTER,
             MoviePersistenceContract.MovieEntry.COLUMN_NAME_OVERVIEW,
             MoviePersistenceContract.MovieEntry.COLUMN_NAME_RATE_AVG,
-            MoviePersistenceContract.MovieEntry.COLUMN_NAME_FAVORITE
+            MoviePersistenceContract.MovieEntry.COLUMN_NAME_FAVORITE,
+            MoviePersistenceContract.MovieEntry.COLUMN_NAME_TYPE
         };
         String selection = MoviePersistenceContract.MovieEntry.COLUMN_NAME_TYPE + " = ?";
         String[] selectionArgs = {type};
@@ -87,12 +88,12 @@ public class MovieLocalDataSource implements DataSource<Movie> {
                 MoviePersistenceContract.MovieEntry.TABLE_NAME, null, contentValues,
                 SQLiteDatabase.CONFLICT_IGNORE);
             if (check == -1) {
+                contentValues.remove(MoviePersistenceContract.MovieEntry.COLUMN_NAME_TYPE);
                 String selection =
-                    MoviePersistenceContract.MovieEntry.COLUMN_NAME_ENTRY_ID + " = ?";
+                    MoviePersistenceContract.MovieEntry.COLUMN_NAME_ENTRY_ID + " =?";
                 String[] selectionArgs = {String.valueOf(data.getId())};
-                db.update(
-                    MoviePersistenceContract.MovieEntry.TABLE_NAME, contentValues,
-                    selection, selectionArgs);
+                db.updateWithOnConflict(MoviePersistenceContract.MovieEntry.TABLE_NAME,
+                    contentValues, selection, selectionArgs, SQLiteDatabase.CONFLICT_REPLACE);
             }
             db.setTransactionSuccessful();
         } catch (Exception e) {
@@ -108,7 +109,7 @@ public class MovieLocalDataSource implements DataSource<Movie> {
         SQLiteDatabase db = mDataHelper.getWritableDatabase();
         String whereClause =
             MoviePersistenceContract.MovieEntry.COLUMN_NAME_TYPE + " LIKE ?" +
-                " AND " + MoviePersistenceContract.MovieEntry.COLUMN_NAME_FAVORITE + "!=" +
+                " AND " + MoviePersistenceContract.MovieEntry.COLUMN_NAME_FAVORITE + "<>" +
                 DataHelper.TRUE_VALUE;
         String[] whereClauseArgs = {type};
         db.delete(
@@ -122,9 +123,9 @@ public class MovieLocalDataSource implements DataSource<Movie> {
         boolean isFavorite = false;
         String selection =
             MoviePersistenceContract.MovieEntry.COLUMN_NAME_ENTRY_ID + " LIKE ?" + " AND " +
-                MoviePersistenceContract.MovieEntry.COLUMN_NAME_FAVORITE + "==" +
-                DataHelper.TRUE_VALUE;
-        String[] selectionArgs = {String.valueOf(data.getId())};
+                MoviePersistenceContract.MovieEntry.COLUMN_NAME_FAVORITE + "=?";
+        String[] selectionArgs = {
+            String.valueOf(data.getId()), String.valueOf(DataHelper.TRUE_VALUE)};
         Cursor cursor = db.query(
             MoviePersistenceContract.MovieEntry.TABLE_NAME,
             null, selection, selectionArgs, null, null, null);
@@ -132,5 +133,10 @@ public class MovieLocalDataSource implements DataSource<Movie> {
         if (cursor != null) cursor.close();
         db.close();
         return isFavorite;
+    }
+
+    @Override
+    public void updateFavorite(@Nullable String type, Movie data) {
+        saveData(type, data);
     }
 }

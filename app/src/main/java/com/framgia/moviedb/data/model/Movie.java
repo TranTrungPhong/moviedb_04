@@ -35,6 +35,7 @@ public class Movie extends BaseObservable implements Serializable {
     @SerializedName("vote_average")
     private String mVoteAverage;
     private boolean mIsFavorite;
+    private String mType;
 
     public Movie(Cursor cursor) {
         mId = cursor.getInt(
@@ -50,6 +51,8 @@ public class Movie extends BaseObservable implements Serializable {
         int favorite = cursor.getInt(
             cursor.getColumnIndexOrThrow(MoviePersistenceContract.MovieEntry.COLUMN_NAME_FAVORITE));
         mIsFavorite = favorite == DataHelper.TRUE_VALUE;
+        mType = cursor.getString(cursor.getColumnIndexOrThrow(MoviePersistenceContract.MovieEntry
+            .COLUMN_NAME_TYPE));
     }
 
     public String getBackdrop() {
@@ -135,11 +138,19 @@ public class Movie extends BaseObservable implements Serializable {
     }
 
     public String getVoteAverage() {
-        return mVoteAverage;
+        return String.format("%.1f", Float.parseFloat(mVoteAverage));
     }
 
     public void setVoteAverage(String voteAverage) {
         mVoteAverage = voteAverage;
+    }
+
+    public String getType() {
+        return mType;
+    }
+
+    public void setType(String type) {
+        this.mType = type;
     }
 
     public String getFullPosterUrl() {
