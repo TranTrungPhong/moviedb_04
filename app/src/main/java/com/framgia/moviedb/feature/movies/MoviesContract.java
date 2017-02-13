@@ -19,6 +19,7 @@ public interface MoviesContract {
         void onPrepare();
         void onMoviesLoaded(List<Movie> movies);
         void onMoviesNotAvailable();
+        void onMoviesEmpty();
         void showMovieDetailsUi(int position, Movie movie);
         void removeItemFavorite(int position, Movie movie);
     }

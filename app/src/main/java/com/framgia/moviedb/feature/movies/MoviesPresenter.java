@@ -35,8 +35,13 @@ public class MoviesPresenter implements MoviesContract.Presenter {
             new MovieDataSource.GetCallback<Movie>() {
                 @Override
                 public void onLoaded(List<Movie> datas) {
-                    mPage++;
-                    mMoviesView.onMoviesLoaded(datas);
+                    if (datas == null || datas.isEmpty()) {
+                        mMoviesView.onMoviesEmpty();
+                        mMoviesView.onMoviesNotAvailable();
+                    } else {
+                        mPage++;
+                        mMoviesView.onMoviesLoaded(datas);
+                    }
                 }
 
                 @Override

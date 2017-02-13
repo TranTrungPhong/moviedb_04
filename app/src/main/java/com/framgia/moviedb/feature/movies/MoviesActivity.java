@@ -25,7 +25,7 @@ public class MoviesActivity extends BaseActivity implements MoviesContract.View 
     private ActivityMoviesBinding mMoviesBinding;
     private MoviesContract.Presenter mMoviesPresenter;
     private VerticalMovieAdapter mVerticalMovieAdapter;
-    private boolean mIsLoadMore;
+    private boolean mIsLoadMore, mIsEmptyData;
     private int mPastVisiblesItems, mTotalItemCount, mVisibleItemCount;
     private String mType;
 
@@ -79,6 +79,7 @@ public class MoviesActivity extends BaseActivity implements MoviesContract.View 
                 @Override
                 public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                     super.onScrolled(recyclerView, dx, dy);
+                    if (!mIsEmptyData) return;
                     mVisibleItemCount = linearLayoutManager.getChildCount();
                     mPastVisiblesItems = linearLayoutManager.findFirstVisibleItemPosition();
                     mTotalItemCount = linearLayoutManager.getItemCount();
@@ -159,6 +160,11 @@ public class MoviesActivity extends BaseActivity implements MoviesContract.View 
         } else if (mVerticalMovieAdapter.getItemCount() == 0) {
             mMoviesBinding.setIsError(true);
         }
+    }
+
+    @Override
+    public void onMoviesEmpty() {
+        mIsEmptyData = true;
     }
 
     @Override
