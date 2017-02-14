@@ -41,6 +41,7 @@ public class DataHelper extends SQLiteOpenHelper {
             MoviePersistenceContract.MovieEntry.COLUMN_NAME_POSTER + TEXT_TYPE + COMMA_SEP +
             MoviePersistenceContract.MovieEntry.COLUMN_NAME_OVERVIEW + TEXT_TYPE + COMMA_SEP +
             MoviePersistenceContract.MovieEntry.COLUMN_NAME_RATE_AVG + TEXT_TYPE + COMMA_SEP +
+            MoviePersistenceContract.MovieEntry.COLUMN_NAME_RELEASE_DATE + TEXT_TYPE + COMMA_SEP +
             MoviePersistenceContract.MovieEntry.COLUMN_NAME_FAVORITE + BOOLEAN_TYPE + COMMA_SEP +
             " UNIQUE(" + MoviePersistenceContract.MovieEntry.COLUMN_NAME_ENTRY_ID + COMMA_SEP +
             MoviePersistenceContract.MovieEntry.COLUMN_NAME_TYPE +

@@ -10,4 +10,11 @@
     <string name="title_favorite">Favorite</string>
     <string name="title_search">Result for</string>
     <string name="message_no_item">No item in favorite ^^</string>
+    <string name="title_review">Review</string>
+    <string name="title_share">Share</string>
+    <string name="title_overview">Overview</string>
+    <string name="title_genres">Genres</string>
+    <string name="title_video">Videos</string>
+    <string name="title_cast">Casts</string>
+    <string name="title_company">Companies</string>
 </resources>

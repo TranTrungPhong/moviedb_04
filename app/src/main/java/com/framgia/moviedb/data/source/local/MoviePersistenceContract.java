@@ -14,6 +14,7 @@ public final class MoviePersistenceContract {
         public static final String COLUMN_NAME_POSTER = "poster";
         public static final String COLUMN_NAME_OVERVIEW = "overview";
         public static final String COLUMN_NAME_RATE_AVG = "rate_avg";
+        public static final String COLUMN_NAME_RELEASE_DATE = "release_date";
         public static final String COLUMN_NAME_FAVORITE = "favorite";
     }
 }

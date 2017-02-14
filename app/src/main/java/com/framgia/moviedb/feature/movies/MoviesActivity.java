@@ -61,6 +61,13 @@ public class MoviesActivity extends BaseActivity implements MoviesContract.View 
         return intent;
     }
 
+    public static Intent getMoviesIntent(Context context, String key, Company company) {
+        Intent intent = new Intent(context, MoviesActivity.class);
+        intent.putExtra(Constant.IntentKey.EXTRA_COMPANY, company);
+        intent.putExtra(Constant.IntentKey.EXTRA_KEY, key);
+        return intent;
+    }
+
     @Override
     public void start() {
         setUpTitle();
@@ -79,7 +86,7 @@ public class MoviesActivity extends BaseActivity implements MoviesContract.View 
                 @Override
                 public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                     super.onScrolled(recyclerView, dx, dy);
-                    if (!mIsEmptyData) return;
+                    if (mIsEmptyData) return;
                     mVisibleItemCount = linearLayoutManager.getChildCount();
                     mPastVisiblesItems = linearLayoutManager.findFirstVisibleItemPosition();
                     mTotalItemCount = linearLayoutManager.getItemCount();
@@ -175,9 +182,11 @@ public class MoviesActivity extends BaseActivity implements MoviesContract.View 
 
     @Override
     public void removeItemFavorite(int position, Movie movie) {
-        mVerticalMovieAdapter.deleteItem(position);
-        if (mVerticalMovieAdapter.getItemCount() == 0) {
-            mMoviesBinding.textMessageNoItem.setVisibility(View.VISIBLE);
+        if (mType.equals(Constant.IntentKey.EXTRA_FAVORITE)) {
+            mVerticalMovieAdapter.deleteItem(position);
+            if (mVerticalMovieAdapter.getItemCount() == 0) {
+                mMoviesBinding.textMessageNoItem.setVisibility(View.VISIBLE);
+            }
         }
     }
 
@@ -228,9 +237,7 @@ public class MoviesActivity extends BaseActivity implements MoviesContract.View 
             int position = data.getIntExtra(MovieDetailActivity.EXTRA_POSITION,
                 MovieDetailActivity.DEFAULT_POSITION);
             mVerticalMovieAdapter.updateItem(position, movie);
-            if (mType.equals(Constant.IntentKey.EXTRA_FAVORITE)) {
-                removeItemFavorite(position, movie);
-            }
+            removeItemFavorite(position, movie);
         }
     }
 }
