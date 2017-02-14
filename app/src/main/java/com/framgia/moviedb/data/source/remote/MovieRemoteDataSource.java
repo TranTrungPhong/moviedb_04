@@ -6,6 +6,7 @@ import com.framgia.moviedb.Constant;
 import com.framgia.moviedb.data.model.Movie;
 import com.framgia.moviedb.data.source.MovieDataSource;
 import com.framgia.moviedb.service.ServiceGenerator;
+import com.framgia.moviedb.service.movie.ApiDetailMovie;
 import com.framgia.moviedb.service.movie.ApiListMovie;
 
 import java.util.HashMap;
@@ -122,5 +123,28 @@ public class MovieRemoteDataSource implements MovieDataSource {
     @Override
     public void loadFavorite(GetCallback getCallback) {
         // load favorite movies in list screen
+    }
+
+    @Override
+    public void loadDetalMovie(String movieId, final LoadCallback loadCallback) {
+        ApiDetailMovie.MovieDetail movieDetail = ServiceGenerator
+            .createService(ApiDetailMovie.MovieDetail.class);
+        Call<Movie> call = movieDetail.loadDetailMovies(movieId, ApiDetailMovie.param());
+        call.enqueue(new Callback<Movie>() {
+            @Override
+            public void onResponse(Call<Movie> call, Response<Movie> response) {
+                loadCallback.onLoaded(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<Movie> call, Throwable t) {
+                loadCallback.onNotAvailable();
+            }
+        });
+    }
+
+    @Override
+    public void loadMovieReview(String movieId, String page, GetCallback getCallback) {
+        // TODO: load reviews
     }
 }

@@ -3,19 +3,24 @@ package com.framgia.moviedb.feature.moviedetail;
 import android.content.Context;
 import android.content.Intent;
 import android.databinding.DataBindingUtil;
+import android.databinding.ObservableBoolean;
+import android.databinding.ObservableField;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
-import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 
 import com.framgia.moviedb.Constant;
 import com.framgia.moviedb.R;
 import com.framgia.moviedb.data.model.Company;
 import com.framgia.moviedb.data.model.Movie;
+import com.framgia.moviedb.data.model.Video;
 import com.framgia.moviedb.data.source.MovieRepository;
 import com.framgia.moviedb.databinding.ActivityMovieDetailBinding;
 import com.framgia.moviedb.feature.BaseActivity;
 import com.framgia.moviedb.feature.movies.MoviesActivity;
+import com.framgia.moviedb.service.ApiCore;
+import com.framgia.moviedb.ui.adapter.GenreAdapter;
+import com.framgia.moviedb.ui.adapter.VideoAdapter;
 
 public class MovieDetailActivity extends BaseActivity implements MovieDetailContract.View {
     public static final String EXTRA_MOVIE = "EXTRA_MOVIE";
@@ -26,9 +31,12 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailCont
     private static final String SHARE_CHOOSE = "Choose one";
     private ActivityMovieDetailBinding mMovieDetailBinding;
     private MovieDetailContract.Presenter mMovieDetailPresenter;
-    private Movie mMovie;
     private int mPosition;
     private boolean mOriginalFavorite;
+    private Movie mMovie;
+    private ObservableField<GenreAdapter> mGenreAdapter = new ObservableField<>();
+    private ObservableField<VideoAdapter> mVideoAdapter = new ObservableField<>();
+    private ObservableBoolean mIsShowShare = new ObservableBoolean();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +46,7 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailCont
         mMovieDetailPresenter = new MovieDetailPresenter(
             this, MovieRepository.getInstance(this));
         mMovieDetailBinding.setPresenter(mMovieDetailPresenter);
+        mMovieDetailBinding.setMovieDetail(this);
         start();
         mMovieDetailPresenter.start();
     }
@@ -85,7 +94,6 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailCont
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
-        mMovieDetailBinding.setMovie(mMovie);
     }
 
     private void getIntentData() {
@@ -101,7 +109,33 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailCont
 
     @Override
     public void onMovieDetailLoaded(Movie movie) {
-        // TODO: setup all view
+        updateCurrentMovie(movie);
+        setUpListGenres();
+        setUpListVideos(movie);
+    }
+
+    private void updateCurrentMovie(Movie movie) {
+        if (movie.getVideo().getVideos() != null && movie.getVideo().getVideos().size() > 0) {
+            mIsShowShare.set(true);
+            mMovie.setVideo(movie.getVideo().getVideos().get(0));
+        }
+        mMovie.setReleaseDate(movie.getReleaseDate());
+        mMovie.setGenres(movie.getGenres());
+        mMovie.setCompanies(movie.getCompanies());
+        mMovie.setBackdrop(movie.getBackdrop());
+    }
+
+    private void setUpListGenres() {
+        mGenreAdapter.set(new GenreAdapter(this, mMovie.getGenres(), null));
+    }
+
+    private void setUpListVideos(Movie movie) {
+        for (Video video : movie.getVideo().getVideos()) {
+            video.setAvatar(ApiCore.BASE_IMAGE_URL + (movie.getBackdrop() != null ? movie
+                .getBackdrop() : movie.getPoster()));
+        }
+        mVideoAdapter.set(new VideoAdapter(this, movie.getVideo().getVideos(),
+            mMovieDetailPresenter));
     }
 
     @Override
@@ -133,5 +167,21 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailCont
     @Override
     public void showMovieReviewUi(String title, String movieId) {
         // TODO: start activity review
+    }
+
+    public ObservableBoolean getIsShowShare() {
+        return mIsShowShare;
+    }
+
+    public ObservableField<GenreAdapter> getGenreAdapter() {
+        return mGenreAdapter;
+    }
+
+    public Movie getMovie() {
+        return mMovie;
+    }
+
+    public ObservableField<VideoAdapter> getVideoAdapter() {
+        return mVideoAdapter;
     }
 }

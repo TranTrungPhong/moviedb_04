@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/tools">
+
+    <data>
+
+        <variable
+            name="video"
+            type="com.framgia.moviedb.data.model.Video"/>
+
+        <variable
+            name="handler"
+            type="com.framgia.moviedb.ui.adapter.VideoItemAcitonHandler"/>
+
+    </data>
+
+    <android.support.v7.widget.CardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/card_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="@dimen/dp_5"
+        android:elevation="@dimen/dp_3"
+        card_view:cardCornerRadius="0dp"
+        android:onClick="@{() -> handler.videoClicked(video.key)}">
+
+        <RelativeLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView
+                android:id="@+id/image_movie_poster"
+                android:layout_width="@dimen/dp_180"
+                android:layout_height="@dimen/dp_120"
+                android:background="@android:color/darker_gray"
+                android:scaleType="centerCrop"
+                app:imageUrl="@{video.avatar}"/>
+
+            <TextView
+                android:id="@+id/text_movie_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/image_movie_poster"
+                android:layout_alignLeft="@+id/image_movie_poster"
+                android:layout_alignRight="@+id/image_movie_poster"
+                android:textSize="@dimen/dp_16"
+                android:lines="2"
+                android:ellipsize="end"
+                android:padding="@dimen/dp_5"
+                android:text="@{video.name}"/>
+
+        </RelativeLayout>
+    </android.support.v7.widget.CardView>
+</layout>
