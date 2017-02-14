@@ -44,6 +44,7 @@ public class MovieLocalDataSource implements MovieDataSource {
             MoviePersistenceContract.MovieEntry.COLUMN_NAME_OVERVIEW,
             MoviePersistenceContract.MovieEntry.COLUMN_NAME_RATE_AVG,
             MoviePersistenceContract.MovieEntry.COLUMN_NAME_FAVORITE,
+            MoviePersistenceContract.MovieEntry.COLUMN_NAME_RELEASE_DATE,
             MoviePersistenceContract.MovieEntry.COLUMN_NAME_TYPE
         };
         String selection = MoviePersistenceContract.MovieEntry.COLUMN_NAME_TYPE + " = ?";
@@ -82,6 +83,9 @@ public class MovieLocalDataSource implements MovieDataSource {
                 MoviePersistenceContract.MovieEntry.COLUMN_NAME_OVERVIEW, data.getOverview());
             contentValues.put(
                 MoviePersistenceContract.MovieEntry.COLUMN_NAME_RATE_AVG, data.getVoteAverage());
+            contentValues.put(
+                MoviePersistenceContract.MovieEntry.COLUMN_NAME_RELEASE_DATE,
+                data.getReleaseDate());
             contentValues.put(
                 MoviePersistenceContract.MovieEntry.COLUMN_NAME_FAVORITE, data.isFavorite());
             int check = (int) db.insertWithOnConflict(
@@ -156,7 +160,8 @@ public class MovieLocalDataSource implements MovieDataSource {
             MoviePersistenceContract.MovieEntry.COLUMN_NAME_OVERVIEW,
             MoviePersistenceContract.MovieEntry.COLUMN_NAME_RATE_AVG,
             MoviePersistenceContract.MovieEntry.COLUMN_NAME_FAVORITE,
-            MoviePersistenceContract.MovieEntry.COLUMN_NAME_TYPE
+            MoviePersistenceContract.MovieEntry.COLUMN_NAME_TYPE,
+            MoviePersistenceContract.MovieEntry.COLUMN_NAME_RELEASE_DATE
         };
         String selection = MoviePersistenceContract.MovieEntry.COLUMN_NAME_FAVORITE + " = ?";
         String[] selectionArgs = {String.valueOf(DataHelper.TRUE_VALUE)};

@@ -18,7 +18,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".feature.movies.MoviesActivity"/>
-        <activity android:name=".feature.moviedetail.MovieDetailActivity"/>
+        <activity android:name=".feature.moviedetail.MovieDetailActivity"
+                  android:theme="@style/NoActionBarTheme"/>
     </application>
 
 </manifest>

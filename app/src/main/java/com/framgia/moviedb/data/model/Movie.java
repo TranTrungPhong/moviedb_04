@@ -35,6 +35,8 @@ public class Movie extends BaseObservable implements Serializable {
     private String mReleaseDate;
     @SerializedName("vote_average")
     private String mVoteAverage;
+    @SerializedName("videos")
+    private Video mVideo;
     private boolean mIsFavorite;
     private String mType = TYPE_DEFAULT;
 
@@ -49,6 +51,9 @@ public class Movie extends BaseObservable implements Serializable {
             cursor.getColumnIndexOrThrow(MoviePersistenceContract.MovieEntry.COLUMN_NAME_OVERVIEW));
         mVoteAverage = cursor.getString(
             cursor.getColumnIndexOrThrow(MoviePersistenceContract.MovieEntry.COLUMN_NAME_RATE_AVG));
+        mReleaseDate = cursor.getString(
+            cursor.getColumnIndexOrThrow(MoviePersistenceContract.MovieEntry
+                .COLUMN_NAME_RELEASE_DATE));
         int favorite = cursor.getInt(
             cursor.getColumnIndexOrThrow(MoviePersistenceContract.MovieEntry.COLUMN_NAME_FAVORITE));
         mIsFavorite = favorite == DataHelper.TRUE_VALUE;
@@ -156,5 +161,17 @@ public class Movie extends BaseObservable implements Serializable {
 
     public String getFullPosterUrl() {
         return ApiCore.BASE_IMAGE_URL + getPoster();
+    }
+
+    public String getFullBackdropUrl() {
+        return ApiCore.BASE_IMAGE_URL + getBackdrop();
+    }
+
+    public Video getVideo() {
+        return mVideo;
+    }
+
+    public void setVideo(Video video) {
+        mVideo = video;
     }
 }
