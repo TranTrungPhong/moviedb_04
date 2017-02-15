@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import com.framgia.moviedb.BasePresenter;
 import com.framgia.moviedb.BaseView;
 import com.framgia.moviedb.data.model.Company;
+import com.framgia.moviedb.data.model.Genre;
 import com.framgia.moviedb.data.model.Movie;
 
 /**
@@ -21,6 +22,7 @@ public interface MovieDetailContract {
         void showVideoDetailUi(String key);
         void shareLink(String title, String key);
         void showMovieReviewUi(String title, String movieId);
+        void showGenreDetailsUi(Genre genre);
     }
 
     interface Presenter extends BasePresenter {
@@ -31,5 +33,6 @@ public interface MovieDetailContract {
         void shareLink(String title, String key);
         void openMovieReview(String title, String movieId);
         boolean checkFavorite(Movie movie);
+        void openGenreDetails(Genre genre);
     }
 }

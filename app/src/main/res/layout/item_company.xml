@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="company"
+            type="com.framgia.moviedb.data.model.Company"/>
+
+        <variable
+            name="handler"
+            type="com.framgia.moviedb.ui.adapter.CompanyItemActionHandler"/>
+    </data>
+
+    <TextView
+        android:id="@+id/text_genre_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/dp_8"
+        android:layout_marginRight="@dimen/dp_8"
+        android:background="@drawable/border_item_genre"
+        android:paddingBottom="@dimen/dp_8"
+        android:paddingLeft="@dimen/dp_20"
+        android:paddingRight="@dimen/dp_20"
+        android:paddingTop="@dimen/dp_8"
+        android:text="@{company.name}"
+        android:textAllCaps="true"
+        android:textColor="@android:color/white"
+        android:onClick="@{() -> handler.companyClicked(company)}"/>
+</layout>

@@ -9,17 +9,16 @@ import android.view.ViewGroup;
 import com.framgia.moviedb.R;
 import com.framgia.moviedb.data.model.Genre;
 import com.framgia.moviedb.databinding.ItemGenreBinding;
-import com.framgia.moviedb.feature.main.MainContract;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class GenreAdapter extends RecyclerView.Adapter<GenreAdapter.ViewHolder> {
+public class GenreAdapter<T> extends RecyclerView.Adapter<GenreAdapter<T>.ViewHolder> {
     private List<Genre> mGenres = new ArrayList<>();
     private LayoutInflater mLayoutInflater;
-    private MainContract.Presenter mListener;
+    private T mListener;
 
-    public GenreAdapter(Context context, List<Genre> genres, MainContract.Presenter listener) {
+    public GenreAdapter(Context context, List<Genre> genres, T listener) {
         if (genres != null) mGenres.addAll(genres);
         mLayoutInflater = LayoutInflater.from(context);
         mListener = listener;

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:app="http://schemas.android.com/tools"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <data>
+
+        <variable
+            name="cast"
+            type="com.framgia.moviedb.data.model.Cast"/>
+
+    </data>
+
+    <RelativeLayout
+        android:orientation="vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/dp_5">
+
+        <com.framgia.moviedb.ui.widget.RoundImage
+            android:id="@+id/image_movie_poster"
+            android:layout_width="@dimen/dp_100"
+            android:layout_height="@dimen/dp_100"
+            android:scaleType="centerCrop"
+            app:avatar="@{cast.profile != null ? cast.fullProfilePath : null}"/>
+
+        <TextView
+            android:id="@+id/text_movie_title"
+            android:layout_width="match_parent"
+            android:gravity="center_horizontal"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/image_movie_poster"
+            android:layout_alignLeft="@+id/image_movie_poster"
+            android:layout_alignRight="@+id/image_movie_poster"
+            android:padding="@dimen/dp_5"
+            android:text="@{cast.name}"/>
+
+    </RelativeLayout>
+</layout>

@@ -8,6 +8,7 @@ import android.widget.ImageView;
 
 import com.framgia.moviedb.R;
 import com.framgia.moviedb.feature.main.MainContract;
+import com.framgia.moviedb.ui.widget.RoundImage;
 import com.squareup.picasso.Picasso;
 
 /**
@@ -19,6 +20,11 @@ public class BindingAdapterUtil {
     @BindingAdapter({"imageUrl"})
     public static void loadImage(ImageView view, String url) {
         Picasso.with(view.getContext()).load(url).into(view);
+    }
+
+    @BindingAdapter({"avatar"})
+    public static void loadAvatar(RoundImage view, String url) {
+        Picasso.with(view.getContext()).load(url).placeholder(R.drawable.ic_people).into(view);
     }
 
     @BindingAdapter("onRefresh")
