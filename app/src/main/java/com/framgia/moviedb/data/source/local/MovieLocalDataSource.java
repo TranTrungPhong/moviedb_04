@@ -76,7 +76,8 @@ public class MovieLocalDataSource implements MovieDataSource {
             contentValues.put(
                 MoviePersistenceContract.MovieEntry.COLUMN_NAME_TITLE, data.getTitle());
             contentValues.put(
-                MoviePersistenceContract.MovieEntry.COLUMN_NAME_TYPE, data.getType());
+                MoviePersistenceContract.MovieEntry.COLUMN_NAME_TYPE,
+                data.getType() != null ? data.getType() : Movie.TYPE_DEFAULT);
             contentValues.put(
                 MoviePersistenceContract.MovieEntry.COLUMN_NAME_POSTER, data.getPoster());
             contentValues.put(

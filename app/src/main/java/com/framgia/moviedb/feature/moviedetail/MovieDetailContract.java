@@ -30,5 +30,6 @@ public interface MovieDetailContract {
         void openVideoDetail(String key);
         void shareLink(String title, String key);
         void openMovieReview(String title, String movieId);
+        boolean checkFavorite(Movie movie);
     }
 }

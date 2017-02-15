@@ -14,7 +14,7 @@ import java.io.Serializable;
 import java.util.List;
 
 public class Movie extends BaseObservable implements Serializable {
-    private static final String TYPE_DEFAULT = "default";
+    public static final String TYPE_DEFAULT = "default";
     @SerializedName("genres")
     private List<Genre> mGenres;
     @SerializedName("id")

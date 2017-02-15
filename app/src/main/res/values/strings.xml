@@ -17,4 +17,5 @@
     <string name="title_video">Videos</string>
     <string name="title_cast">Casts</string>
     <string name="title_company">Companies</string>
+    <string name="message_youtube_error">There was an error initializing the YouTubePlayer</string>
 </resources>

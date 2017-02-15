@@ -10,6 +10,7 @@ android {
         versionCode 1
         versionName "1.0"
         buildConfigField "String", "API_KEY", "\"${API_KEY}\""
+        buildConfigField "String", "YOUTUBE_KEY", "\"${YOUTUBE_KEY}\""
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
@@ -37,4 +38,5 @@ dependencies {
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.android.support:design:25.0.1'
     compile 'com.android.support:palette-v7:25.0.1'
+    compile files('libs/YouTubeAndroidPlayerApi.jar')
 }
