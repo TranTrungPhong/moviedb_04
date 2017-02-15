@@ -256,7 +256,9 @@
                     android:id="@+id/recycler_cast"
                     android:layout_marginTop="@dimen/dp_10"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    bind:adapter="@{movieDetail.castAdapter}"
+                    bind:layoutManager="@{LayoutManagerUtil.linear(LinearLayoutManager.HORIZONTAL)}"/>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -276,7 +278,9 @@
                     android:id="@+id/recycler_company"
                     android:layout_marginTop="@dimen/dp_10"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    bind:adapter="@{movieDetail.companyAdapter}"
+                    bind:layoutManager="@{LayoutManagerUtil.linear(LinearLayoutManager.HORIZONTAL)}"/>
 
             </LinearLayout>
 

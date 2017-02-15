@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import com.framgia.moviedb.Constant;
 import com.framgia.moviedb.R;
 import com.framgia.moviedb.data.model.Company;
+import com.framgia.moviedb.data.model.Genre;
 import com.framgia.moviedb.data.model.Movie;
 import com.framgia.moviedb.data.model.Video;
 import com.framgia.moviedb.data.source.MovieRepository;
@@ -21,6 +22,8 @@ import com.framgia.moviedb.feature.movies.MoviesActivity;
 import com.framgia.moviedb.feature.review.ReviewActivity;
 import com.framgia.moviedb.feature.video.VideoActivity;
 import com.framgia.moviedb.service.ApiCore;
+import com.framgia.moviedb.ui.adapter.CastAdapter;
+import com.framgia.moviedb.ui.adapter.CompanyAdapter;
 import com.framgia.moviedb.ui.adapter.GenreAdapter;
 import com.framgia.moviedb.ui.adapter.VideoAdapter;
 
@@ -38,6 +41,8 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailCont
     private Movie mMovie;
     private ObservableField<GenreAdapter> mGenreAdapter = new ObservableField<>();
     private ObservableField<VideoAdapter> mVideoAdapter = new ObservableField<>();
+    private ObservableField<CompanyAdapter> mCompanyAdapter = new ObservableField<>();
+    private ObservableField<CastAdapter> mCastAdapter = new ObservableField<>();
     private ObservableBoolean mIsShowShare = new ObservableBoolean();
 
     public static Intent getMovieDetailIntent(Context context, Movie movie) {
@@ -112,9 +117,12 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailCont
 
     @Override
     public void onMovieDetailLoaded(Movie movie) {
+        if (movie == null) return;
         updateCurrentMovie(movie);
         setUpListGenres();
         setUpListVideos(movie);
+        setUpListCasts(movie);
+        setUpListCompanies(movie);
     }
 
     private void updateCurrentMovie(Movie movie) {
@@ -129,7 +137,7 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailCont
     }
 
     private void setUpListGenres() {
-        mGenreAdapter.set(new GenreAdapter(this, mMovie.getGenres(), null));
+        mGenreAdapter.set(new GenreAdapter(this, mMovie.getGenres(), mMovieDetailPresenter));
     }
 
     private void setUpListVideos(Movie movie) {
@@ -138,6 +146,17 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailCont
                 .getBackdrop() : movie.getPoster()));
         }
         mVideoAdapter.set(new VideoAdapter(this, movie.getVideo().getVideos(),
+            mMovieDetailPresenter));
+    }
+
+    private void setUpListCasts(Movie movie) {
+        if (movie.getCast() == null) return;
+        mCastAdapter.set(new CastAdapter(
+            this, movie.getCast().getCasts(), mMovieDetailPresenter));
+    }
+
+    private void setUpListCompanies(Movie movie) {
+        mCompanyAdapter.set(new CompanyAdapter(this, movie.getCompanies(),
             mMovieDetailPresenter));
     }
 
@@ -172,6 +191,13 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailCont
         startActivity(ReviewActivity.getMovieReviewIntent(this, title, movieId));
     }
 
+    @Override
+    public void showGenreDetailsUi(Genre genre) {
+        startActivityForResult(MoviesActivity.getMoviesIntent(
+            this, Constant.IntentKey.EXTRA_GENRES, genre),
+            Constant.MOVIE_DETAIL_ACTIVITY_REQUEST_CODE);
+    }
+
     public ObservableBoolean getIsShowShare() {
         return mIsShowShare;
     }
@@ -186,6 +212,14 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailCont
 
     public ObservableField<VideoAdapter> getVideoAdapter() {
         return mVideoAdapter;
+    }
+
+    public ObservableField<CastAdapter> getCastAdapter() {
+        return mCastAdapter;
+    }
+
+    public ObservableField<CompanyAdapter> getCompanyAdapter() {
+        return mCompanyAdapter;
     }
 
     @Override

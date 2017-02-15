@@ -8,6 +8,7 @@ package com.framgia.moviedb;
 public class Constant {
     public static final int MOVIES_ACTIVITY_REQUEST_CODE = 1;
     public static final int VIDEO_ACTIVITY_DIALOG_REQUEST_CODE = 2;
+    public static final int MOVIE_DETAIL_ACTIVITY_REQUEST_CODE = 3;
 
     public class IntentKey {
         public static final String EXTRA_GENRES = "EXTRA_GENRES";

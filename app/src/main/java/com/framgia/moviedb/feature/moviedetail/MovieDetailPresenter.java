@@ -3,6 +3,7 @@ package com.framgia.moviedb.feature.moviedetail;
 import android.support.annotation.Nullable;
 
 import com.framgia.moviedb.data.model.Company;
+import com.framgia.moviedb.data.model.Genre;
 import com.framgia.moviedb.data.model.Movie;
 import com.framgia.moviedb.data.source.MovieDataSource;
 
@@ -70,5 +71,10 @@ public class MovieDetailPresenter implements MovieDetailContract.Presenter {
     @Override
     public boolean checkFavorite(Movie movie) {
         return mMovieRepository.getFavorite(movie);
+    }
+
+    @Override
+    public void openGenreDetails(Genre genre) {
+        mMovieDetailView.showGenreDetailsUi(genre);
     }
 }
