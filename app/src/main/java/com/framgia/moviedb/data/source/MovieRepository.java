@@ -134,6 +134,16 @@ public class MovieRepository implements MovieDataSource {
         mMovieLocalDataSource.loadFavorite(getCallback);
     }
 
+    @Override
+    public void loadDetalMovie(String movieId, LoadCallback loadCallback) {
+        mMovieRemoteDataSource.loadDetalMovie(movieId, loadCallback);
+    }
+
+    @Override
+    public void loadMovieReview(String movieId, String page, GetCallback getCallback) {
+        // TODO: load reviews
+    }
+
     private void getDataFromRemote(@Nullable final String type, @Nullable final String page,
                                    final GetCallback getCallback) {
         mMovieRemoteDataSource.getMovies(type, page, new GetCallback<Movie>() {

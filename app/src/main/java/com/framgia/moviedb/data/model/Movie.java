@@ -37,6 +37,8 @@ public class Movie extends BaseObservable implements Serializable {
     private String mVoteAverage;
     @SerializedName("videos")
     private Video mVideo;
+    @SerializedName("casts")
+    private Cast mCast;
     private boolean mIsFavorite;
     private String mType = TYPE_DEFAULT;
 
@@ -61,12 +63,14 @@ public class Movie extends BaseObservable implements Serializable {
             .COLUMN_NAME_TYPE));
     }
 
+    @Bindable
     public String getBackdrop() {
         return mBackdrop;
     }
 
     public void setBackdrop(String backdrop) {
         mBackdrop = backdrop;
+        notifyPropertyChanged(BR.backdrop);
     }
 
     public Collection getCollection() {
@@ -167,11 +171,21 @@ public class Movie extends BaseObservable implements Serializable {
         return ApiCore.BASE_IMAGE_URL + getBackdrop();
     }
 
+    @Bindable
     public Video getVideo() {
         return mVideo;
     }
 
     public void setVideo(Video video) {
         mVideo = video;
+        notifyPropertyChanged(BR.video);
+    }
+
+    public Cast getCast() {
+        return mCast;
+    }
+
+    public void setCast(Cast cast) {
+        mCast = cast;
     }
 }

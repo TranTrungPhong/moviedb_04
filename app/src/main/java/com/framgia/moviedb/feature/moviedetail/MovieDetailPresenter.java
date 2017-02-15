@@ -28,7 +28,17 @@ public class MovieDetailPresenter implements MovieDetailContract.Presenter {
 
     @Override
     public void loadDetail(String movieId) {
-        // TODO: load detail 
+        mMovieRepository.loadDetalMovie(movieId, new MovieDataSource.LoadCallback<Movie>() {
+            @Override
+            public void onLoaded(Movie data) {
+                mMovieDetailView.onMovieDetailLoaded(data);
+            }
+
+            @Override
+            public void onNotAvailable() {
+                mMovieDetailView.onMovieDetailError();
+            }
+        });
     }
 
     @Override

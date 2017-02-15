@@ -31,8 +31,8 @@
             android:id="@+id/swipe_refresh"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:onRefresh="@{mainPresenter}"
-            android:setCustomColor="@{true}">
+            bind:onRefresh="@{mainPresenter}"
+            bind:customColor="@{true}">
 
             <android.support.v4.widget.NestedScrollView
                 android:layout_width="match_parent"

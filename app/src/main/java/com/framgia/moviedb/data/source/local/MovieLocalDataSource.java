@@ -181,4 +181,14 @@ public class MovieLocalDataSource implements MovieDataSource {
         if (movies == null) getCallback.onNotAvailable();
         else getCallback.onLoaded(movies);
     }
+
+    @Override
+    public void loadDetalMovie(String movieId, LoadCallback loadCallback) {
+        // not require for local
+    }
+
+    @Override
+    public void loadMovieReview(String movieId, String page, GetCallback getCallback) {
+        // not require for local
+    }
 }

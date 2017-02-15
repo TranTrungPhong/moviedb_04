@@ -1,14 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto">
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:bind="http://schemas.android.com/tools">
 
     <data>
 
         <import type="android.view.View"/>
 
+        <import type="com.framgia.moviedb.util.LayoutManagerUtil"/>
+
+        <import type="android.support.v7.widget.LinearLayoutManager"/>
+
         <variable
-            name="movie"
-            type="com.framgia.moviedb.data.model.Movie"/>
+            name="movieDetail"
+            type="com.framgia.moviedb.feature.moviedetail.MovieDetailActivity"/>
 
         <variable
             name="presenter"
@@ -32,7 +37,7 @@
                 android:layout_height="match_parent"
                 app:contentScrim="?attr/colorPrimary"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed"
-                app:title="@{movie.title}">
+                app:title="@{movieDetail.movie.title}">
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -43,7 +48,7 @@
                         android:layout_height="match_parent"
                         android:scaleType="centerCrop"
                         app:layout_collapseMode="parallax"
-                        app:imageUrl="@{movie.backdrop != null ? movie.fullBackdropUrl : movie.fullPosterUrl}"/>
+                        app:imageUrl="@{movieDetail.movie.backdrop != null ? movieDetail.movie.fullBackdropUrl : movieDetail.movie.fullPosterUrl}"/>
 
                     <ImageView
                         android:id="@+id/image_play"
@@ -51,8 +56,8 @@
                         android:layout_height="wrap_content"
                         android:src="@drawable/ic_play"
                         android:layout_centerInParent="true"
-                        android:visibility="gone"
-                        android:onClick="@{() -> presenter.openVideoDetail(movie.video.key)}"/>
+                        android:visibility="@{ movieDetail.isShowShare ? View.VISIBLE : View.GONE}"
+                        android:onClick="@{() -> presenter.openVideoDetail(movieDetail.movie.video.key)}"/>
                 </RelativeLayout>
 
                 <android.support.v7.widget.Toolbar
@@ -88,16 +93,16 @@
                         android:layout_height="@dimen/dp_180"
                         android:scaleType="centerCrop"
                         android:layout_alignParentLeft="true"
-                        app:imageUrl="@{movie.fullPosterUrl}"/>
+                        app:imageUrl="@{movieDetail.movie.fullPosterUrl}"/>
 
                     <ImageView
                         android:id="@+id/image_movie_favorite"
                         android:layout_width="@dimen/dp_32"
                         android:layout_height="@dimen/dp_32"
                         android:paddingRight="@dimen/dp_5"
-                        android:src="@{movie.favorite ? @drawable/ic_favorite_filled : @drawable/ic_favorite}"
+                        android:src="@{movieDetail.movie.favorite ? @drawable/ic_favorite_filled : @drawable/ic_favorite}"
                         android:layout_alignParentRight="true"
-                        android:onClick="@{() -> presenter.updateFavorite(movie.type, movie)}"/>
+                        android:onClick="@{() -> presenter.updateFavorite(movieDetail.movie.type, movieDetail.movie)}"/>
 
                     <TextView
                         android:id="@+id/text_movie_title"
@@ -107,7 +112,7 @@
                         android:layout_toLeftOf="@id/image_movie_favorite"
                         android:paddingLeft="@dimen/dp_10"
                         android:textColor="@android:color/black"
-                        android:text="@{movie.title}"
+                        android:text="@{movieDetail.movie.title}"
                         android:textSize="@dimen/sp_20"/>
 
                     <TextView
@@ -118,7 +123,7 @@
                         android:layout_toRightOf="@+id/image_movie_poster"
                         android:paddingLeft="@dimen/dp_10"
                         android:textSize="@dimen/sp_16"
-                        android:text="@{movie.releaseDate}"/>
+                        android:text="@{movieDetail.movie.releaseDate}"/>
 
                     <TextView
                         android:id="@+id/text_movie_rate"
@@ -128,7 +133,7 @@
                         android:layout_toRightOf="@+id/image_movie_poster"
                         android:paddingLeft="@dimen/dp_10"
                         android:textSize="@dimen/sp_16"
-                        android:text="@{movie.voteAverage}"/>
+                        android:text="@{movieDetail.movie.voteAverage}"/>
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -149,7 +154,7 @@
                         android:textSize="@dimen/sp_18"
                         android:textColor="@color/color_accent"
                         style="@style/Widget.AppCompat.Button.Borderless"
-                        android:onClick="@{() -> presenter.openMovieReview(movie.title, String.valueOf(movie.id))}"/>
+                        android:onClick="@{() -> presenter.openMovieReview(movieDetail.movie.title, String.valueOf(movieDetail.movie.id))}"/>
 
                     <TextView
                         android:id="@+id/text_share"
@@ -162,9 +167,9 @@
                         android:textSize="@dimen/sp_18"
                         android:textColor="@color/color_accent"
                         android:textAllCaps="false"
-                        android:visibility="gone"
+                        android:visibility="@{ movieDetail.isShowShare ? View.VISIBLE : View.GONE}"
                         style="@style/Widget.AppCompat.Button.Borderless"
-                        android:onClick="@{() -> presenter.shareLink(movie.title, movie.video.key)}"/>
+                        android:onClick="@{() -> presenter.shareLink(movieDetail.movie.title, movieDetail.movie.video.key)}"/>
 
                 </RelativeLayout>
 
@@ -186,7 +191,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/sp_18"
-                    android:text="@{movie.overview}"/>
+                    android:text="@{movieDetail.movie.overview}"/>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -206,7 +211,9 @@
                     android:id="@+id/recycler_genres"
                     android:layout_marginTop="@dimen/dp_10"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"/>
+                    android:layout_height="wrap_content"
+                    bind:adapter="@{movieDetail.genreAdapter}"
+                    bind:layoutManager="@{LayoutManagerUtil.linear(LinearLayoutManager.HORIZONTAL)}"/>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -226,7 +233,9 @@
                     android:id="@+id/recycler_video"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dp_10"/>
+                    android:layout_marginTop="@dimen/dp_10"
+                    bind:adapter="@{movieDetail.videoAdapter}"
+                    bind:layoutManager="@{LayoutManagerUtil.linear(LinearLayoutManager.HORIZONTAL)}"/>
 
                 <TextView
                     android:layout_width="match_parent"
