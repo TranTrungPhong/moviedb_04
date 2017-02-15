@@ -200,87 +200,111 @@
                     android:layout_height="@dimen/dp_1"
                     android:background="@android:color/darker_gray"/>
 
-                <TextView
+                <ProgressBar
+                    android:id="@+id/progress_loading"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:visibility="@{movieDetail.isLoading ? View.VISIBLE : View.GONE}"/>
+
+                <include
+                    android:id="@+id/linear_retry"
+                    layout="@layout/retry_notification"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textSize="@dimen/sp_20"
-                    android:text="@string/title_genres"
-                    android:textColor="@android:color/black"/>
+                    android:layout_gravity="center_horizontal"
+                    bind:isVisible="@{movieDetail.isError}"
+                    bind:presenter="@{presenter}"/>
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/recycler_genres"
-                    android:layout_marginTop="@dimen/dp_10"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    bind:adapter="@{movieDetail.genreAdapter}"
-                    bind:layoutManager="@{LayoutManagerUtil.linear(LinearLayoutManager.HORIZONTAL)}"/>
+                    android:orientation="vertical"
+                    android:visibility="@{(!movieDetail.isLoading &amp;&amp; !movieDetail.isError) ? View.VISIBLE : View.GONE}">
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_marginTop="@dimen/dp_16"
-                    android:layout_marginBottom="@dimen/dp_8"
-                    android:layout_height="@dimen/dp_1"
-                    android:background="@android:color/darker_gray"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/sp_20"
+                        android:text="@string/title_genres"
+                        android:textColor="@android:color/black"/>
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/sp_20"
-                    android:text="@string/title_video"
-                    android:textColor="@android:color/black"/>
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recycler_genres"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        bind:adapter="@{movieDetail.genreAdapter}"
+                        bind:layoutManager="@{LayoutManagerUtil.linear(LinearLayoutManager.HORIZONTAL)}"/>
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/recycler_video"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/dp_10"
-                    bind:adapter="@{movieDetail.videoAdapter}"
-                    bind:layoutManager="@{LayoutManagerUtil.linear(LinearLayoutManager.HORIZONTAL)}"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_marginTop="@dimen/dp_16"
+                        android:layout_marginBottom="@dimen/dp_8"
+                        android:layout_height="@dimen/dp_1"
+                        android:background="@android:color/darker_gray"/>
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_marginTop="@dimen/dp_16"
-                    android:layout_marginBottom="@dimen/dp_8"
-                    android:layout_height="@dimen/dp_1"
-                    android:background="@android:color/darker_gray"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/sp_20"
+                        android:text="@string/title_video"
+                        android:textColor="@android:color/black"/>
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recycler_video"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/dp_10"
+                        bind:adapter="@{movieDetail.videoAdapter}"
+                        bind:layoutManager="@{LayoutManagerUtil.linear(LinearLayoutManager.HORIZONTAL)}"/>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_marginTop="@dimen/dp_16"
+                        android:layout_marginBottom="@dimen/dp_8"
+                        android:layout_height="@dimen/dp_1"
+                        android:background="@android:color/darker_gray"/>
 
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/sp_20"
-                    android:text="@string/title_cast"
-                    android:textColor="@android:color/black"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/sp_20"
+                        android:text="@string/title_cast"
+                        android:textColor="@android:color/black"/>
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/recycler_cast"
-                    android:layout_marginTop="@dimen/dp_10"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    bind:adapter="@{movieDetail.castAdapter}"
-                    bind:layoutManager="@{LayoutManagerUtil.linear(LinearLayoutManager.HORIZONTAL)}"/>
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recycler_cast"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        bind:adapter="@{movieDetail.castAdapter}"
+                        bind:layoutManager="@{LayoutManagerUtil.linear(LinearLayoutManager.HORIZONTAL)}"/>
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_marginTop="@dimen/dp_16"
-                    android:layout_marginBottom="@dimen/dp_8"
-                    android:layout_height="@dimen/dp_1"
-                    android:background="@android:color/darker_gray"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_marginTop="@dimen/dp_16"
+                        android:layout_marginBottom="@dimen/dp_8"
+                        android:layout_height="@dimen/dp_1"
+                        android:background="@android:color/darker_gray"/>
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textSize="@dimen/sp_20"
-                    android:text="@string/title_company"
-                    android:textColor="@android:color/black"/>
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textSize="@dimen/sp_20"
+                        android:text="@string/title_company"
+                        android:textColor="@android:color/black"/>
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/recycler_company"
-                    android:layout_marginTop="@dimen/dp_10"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    bind:adapter="@{movieDetail.companyAdapter}"
-                    bind:layoutManager="@{LayoutManagerUtil.linear(LinearLayoutManager.HORIZONTAL)}"/>
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recycler_company"
+                        android:layout_marginTop="@dimen/dp_10"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        bind:adapter="@{movieDetail.companyAdapter}"
+                        bind:layoutManager="@{LayoutManagerUtil.linear(LinearLayoutManager.HORIZONTAL)}"/>
+
+                </LinearLayout>
 
             </LinearLayout>
 

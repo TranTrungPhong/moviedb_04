@@ -44,6 +44,8 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailCont
     private ObservableField<CompanyAdapter> mCompanyAdapter = new ObservableField<>();
     private ObservableField<CastAdapter> mCastAdapter = new ObservableField<>();
     private ObservableBoolean mIsShowShare = new ObservableBoolean();
+    private ObservableBoolean mIsLoading = new ObservableBoolean();
+    private ObservableBoolean mIsError = new ObservableBoolean();
 
     public static Intent getMovieDetailIntent(Context context, Movie movie) {
         Intent intent = new Intent(context, MovieDetailActivity.class);
@@ -112,6 +114,8 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailCont
 
     @Override
     public void onPrepare() {
+        mIsLoading.set(true);
+        mIsError.set(false);
         mMovieDetailPresenter.loadDetail(String.valueOf(mMovie.getId()));
     }
 
@@ -123,6 +127,7 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailCont
         setUpListVideos(movie);
         setUpListCasts(movie);
         setUpListCompanies(movie);
+        mIsLoading.set(false);
     }
 
     private void updateCurrentMovie(Movie movie) {
@@ -162,7 +167,8 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailCont
 
     @Override
     public void onMovieDetailError() {
-        // TODO: notify error for user 
+        mIsError.set(true);
+        mIsLoading.set(false);
     }
 
     @Override
@@ -200,6 +206,14 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailCont
 
     public ObservableBoolean getIsShowShare() {
         return mIsShowShare;
+    }
+
+    public ObservableBoolean getIsLoading() {
+        return mIsLoading;
+    }
+
+    public ObservableBoolean getIsError() {
+        return mIsError;
     }
 
     public ObservableField<GenreAdapter> getGenreAdapter() {
