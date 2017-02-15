@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:bind="http://schemas.android.com/apk/res-auto">
+
+    <data>
+
+        <import type="android.view.View"/>
+
+        <import type="com.framgia.moviedb.util.LayoutManagerUtil"/>
+
+        <variable
+            name="reviewActivity"
+            type="com.framgia.moviedb.feature.review.ReviewActivity"/>
+
+        <variable
+            name="presenter"
+            type="com.framgia.moviedb.feature.review.ReviewContract.Presenter"/>
+    </data>
+
+    <RelativeLayout
+        android:id="@+id/activity_review"
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.framgia.moviedb.feature.review.ReviewActivity">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_review"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/dp_8"
+            android:layout_marginRight="@dimen/dp_8"
+            bind:adapter="@{reviewActivity.reviewAdapter}"
+            bind:layoutManager="@{LayoutManagerUtil.linear()}"/>
+
+        <ProgressBar
+            android:id="@+id/progress_loading"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:visibility="@{reviewActivity.isLoading ? View.VISIBLE : View.GONE}"/>
+
+        <include
+            android:id="@+id/linear_retry"
+            layout="@layout/retry_notification"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            bind:isVisible="@{reviewActivity.isError}"
+            bind:presenter="@{presenter}"/>
+
+        <TextView
+            android:id="@+id/text_message_no_item"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="@string/message_no_review"
+            android:textSize="@dimen/sp_24"
+            android:visibility="@{reviewActivity.isNoReview ? View.VISIBLE : View.GONE}"/>
+
+    </RelativeLayout>
+</layout>

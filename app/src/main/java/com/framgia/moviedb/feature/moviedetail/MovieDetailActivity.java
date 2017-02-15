@@ -18,6 +18,7 @@ import com.framgia.moviedb.data.source.MovieRepository;
 import com.framgia.moviedb.databinding.ActivityMovieDetailBinding;
 import com.framgia.moviedb.feature.BaseActivity;
 import com.framgia.moviedb.feature.movies.MoviesActivity;
+import com.framgia.moviedb.feature.review.ReviewActivity;
 import com.framgia.moviedb.feature.video.VideoActivity;
 import com.framgia.moviedb.service.ApiCore;
 import com.framgia.moviedb.ui.adapter.GenreAdapter;
@@ -39,19 +40,6 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailCont
     private ObservableField<VideoAdapter> mVideoAdapter = new ObservableField<>();
     private ObservableBoolean mIsShowShare = new ObservableBoolean();
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        mMovieDetailBinding =
-            DataBindingUtil.setContentView(this, R.layout.activity_movie_detail);
-        mMovieDetailPresenter = new MovieDetailPresenter(
-            this, MovieRepository.getInstance(this));
-        mMovieDetailBinding.setPresenter(mMovieDetailPresenter);
-        mMovieDetailBinding.setMovieDetail(this);
-        start();
-        mMovieDetailPresenter.start();
-    }
-
     public static Intent getMovieDetailIntent(Context context, Movie movie) {
         Intent intent = new Intent(context, MovieDetailActivity.class);
         intent.putExtra(MovieDetailActivity.EXTRA_MOVIE, movie);
@@ -63,6 +51,19 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailCont
         intent.putExtra(MovieDetailActivity.EXTRA_MOVIE, movie);
         intent.putExtra(MovieDetailActivity.EXTRA_POSITION, position);
         return intent;
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        mMovieDetailBinding =
+            DataBindingUtil.setContentView(this, R.layout.activity_movie_detail);
+        mMovieDetailPresenter = new MovieDetailPresenter(
+            this, MovieRepository.getInstance(this));
+        mMovieDetailBinding.setPresenter(mMovieDetailPresenter);
+        mMovieDetailBinding.setMovieDetail(this);
+        start();
+        mMovieDetailPresenter.start();
     }
 
     @Override
@@ -168,7 +169,7 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailCont
 
     @Override
     public void showMovieReviewUi(String title, String movieId) {
-        // TODO: start activity review
+        startActivity(ReviewActivity.getMovieReviewIntent(this, title, movieId));
     }
 
     public ObservableBoolean getIsShowShare() {

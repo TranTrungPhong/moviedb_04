@@ -45,7 +45,7 @@ public class MovieRepository implements MovieDataSource {
                 getDataFromRemote(type, FIRST_PAGE, getCallback);
                 break;
             case LOCAL_PAGE:
-                mMovieLocalDataSource.getMovies(type, page, new GetCallback<Movie>() {
+                mMovieLocalDataSource.getMovies(type, page, new DataSource.GetCallback<Movie>() {
                     @Override
                     public void onLoaded(List<Movie> datas) {
                         getCallback.onLoaded(datas);
@@ -140,8 +140,8 @@ public class MovieRepository implements MovieDataSource {
     }
 
     @Override
-    public void loadMovieReview(String movieId, String page, GetCallback getCallback) {
-        // TODO: load reviews
+    public void loadMovieReview(String movieId, String page, GetReviewCallback getCallback) {
+        mMovieRemoteDataSource.loadMovieReview(movieId, page, getCallback);
     }
 
     private void getDataFromRemote(@Nullable final String type, @Nullable final String page,

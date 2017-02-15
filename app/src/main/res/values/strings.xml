@@ -18,4 +18,5 @@
     <string name="title_cast">Casts</string>
     <string name="title_company">Companies</string>
     <string name="message_youtube_error">There was an error initializing the YouTubePlayer</string>
+    <string name="message_no_review">No review for this movie ^^</string>
 </resources>
