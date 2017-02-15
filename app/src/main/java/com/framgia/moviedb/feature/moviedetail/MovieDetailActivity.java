@@ -18,6 +18,7 @@ import com.framgia.moviedb.data.source.MovieRepository;
 import com.framgia.moviedb.databinding.ActivityMovieDetailBinding;
 import com.framgia.moviedb.feature.BaseActivity;
 import com.framgia.moviedb.feature.movies.MoviesActivity;
+import com.framgia.moviedb.feature.video.VideoActivity;
 import com.framgia.moviedb.service.ApiCore;
 import com.framgia.moviedb.ui.adapter.GenreAdapter;
 import com.framgia.moviedb.ui.adapter.VideoAdapter;
@@ -98,6 +99,7 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailCont
 
     private void getIntentData() {
         mMovie = (Movie) getIntent().getSerializableExtra(EXTRA_MOVIE);
+        mMovie.setFavorite(mMovieDetailPresenter.checkFavorite(mMovie));
         mPosition = getIntent().getIntExtra(EXTRA_POSITION, DEFAULT_POSITION);
         mOriginalFavorite = mMovie.isFavorite();
     }
@@ -151,7 +153,7 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailCont
 
     @Override
     public void showVideoDetailUi(String key) {
-        // TODO: start activity video 
+        startActivity(VideoActivity.getVideoDetailIntent(this, key));
     }
 
     @Override
@@ -183,5 +185,11 @@ public class MovieDetailActivity extends BaseActivity implements MovieDetailCont
 
     public ObservableField<VideoAdapter> getVideoAdapter() {
         return mVideoAdapter;
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        mMovie.setFavorite(mMovieDetailPresenter.checkFavorite(mMovie));
     }
 }

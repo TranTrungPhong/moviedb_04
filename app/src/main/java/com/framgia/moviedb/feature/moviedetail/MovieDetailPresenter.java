@@ -66,4 +66,9 @@ public class MovieDetailPresenter implements MovieDetailContract.Presenter {
     public void openMovieReview(String title, String movieId) {
         mMovieDetailView.showMovieReviewUi(title, movieId);
     }
+
+    @Override
+    public boolean checkFavorite(Movie movie) {
+        return mMovieRepository.getFavorite(movie);
+    }
 }

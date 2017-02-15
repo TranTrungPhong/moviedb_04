@@ -2,6 +2,7 @@ package com.framgia.moviedb.data.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -9,7 +10,7 @@ import java.util.List;
  * Project: moviedb_04
  * Package: com.framgia.moviedb.data.model
  */
-public class Video {
+public class Video implements Serializable {
     @SerializedName("results")
     private List<Video> mVideos;
     private String mAvatar;
