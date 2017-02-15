@@ -40,8 +40,7 @@ public class BindingAdapterUtil {
     }
 
     @BindingAdapter({"adapter"})
-    public static void setAdapter(RecyclerView view,
-                                  RecyclerView.Adapter adapter) {
+    public static void setAdapter(RecyclerView view, RecyclerView.Adapter adapter) {
         view.setAdapter(adapter);
         view.setHasFixedSize(true);
     }

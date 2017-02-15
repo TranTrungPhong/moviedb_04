@@ -8,6 +8,7 @@ import com.framgia.moviedb.data.source.MovieDataSource;
 import com.framgia.moviedb.service.ServiceGenerator;
 import com.framgia.moviedb.service.movie.ApiDetailMovie;
 import com.framgia.moviedb.service.movie.ApiListMovie;
+import com.framgia.moviedb.service.movie.ApiReview;
 
 import java.util.HashMap;
 
@@ -144,7 +145,31 @@ public class MovieRemoteDataSource implements MovieDataSource {
     }
 
     @Override
-    public void loadMovieReview(String movieId, String page, GetCallback getCallback) {
-        // TODO: load reviews
+    public void loadMovieReview(String movieId, String page, final GetReviewCallback getCallback) {
+        ApiReview.ListReview listReview = ServiceGenerator
+            .createService(ApiReview.ListReview.class);
+        Call<ApiReview.Response> call =
+            listReview.loadReviews(movieId, ApiReview.param(String.valueOf(page)));
+        call.enqueue(new Callback<ApiReview.Response>() {
+            @Override
+            public void onResponse(Call<ApiReview.Response> call,
+                                   Response<ApiReview.Response> response) {
+                if (response == null || response.body() == null) {
+                    getCallback.onNotAvailable();
+                    return;
+                }
+                if (response.body().getReviews() == null ||
+                    response.body().getReviews().size() == 0) {
+                    getCallback.onEmpty();
+                    return;
+                }
+                getCallback.onLoaded(response.body().getReviews());
+            }
+
+            @Override
+            public void onFailure(Call<ApiReview.Response> call, Throwable t) {
+                getCallback.onNotAvailable();
+            }
+        });
     }
 }

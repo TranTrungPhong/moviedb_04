@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Toast;
 
-import com.framgia.moviedb.BaseView;
 import com.framgia.moviedb.BuildConfig;
 import com.framgia.moviedb.Constant;
 import com.framgia.moviedb.R;

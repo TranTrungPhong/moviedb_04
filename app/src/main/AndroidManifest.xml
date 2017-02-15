@@ -22,6 +22,7 @@
                   android:theme="@style/NoActionBarTheme"/>
         <activity android:name=".feature.video.VideoActivity"
                   android:screenOrientation="landscape"/>
+        <activity android:name=".feature.review.ReviewActivity"/>
     </application>
 
 </manifest>

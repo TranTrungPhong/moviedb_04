@@ -189,7 +189,7 @@ public class MovieLocalDataSource implements MovieDataSource {
     }
 
     @Override
-    public void loadMovieReview(String movieId, String page, GetCallback getCallback) {
+    public void loadMovieReview(String movieId, String page, GetReviewCallback getCallback) {
         // not require for local
     }
 }
