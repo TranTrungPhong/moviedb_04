@@ -1,5 +1,6 @@
 package com.framgia.moviedb.data.model;
 
+import android.annotation.SuppressLint;
 import android.database.Cursor;
 import android.databinding.BaseObservable;
 import android.databinding.Bindable;
@@ -15,6 +16,9 @@ import java.util.List;
 
 public class Movie extends BaseObservable implements Serializable {
     public static final String TYPE_DEFAULT = "default";
+    private static final String COMMA_SEP = ",";
+    private static final String DOT_SEP = ".";
+    private static final String FLOAT_FORMAT = "%.1f";
     @SerializedName("genres")
     private List<Genre> mGenres;
     @SerializedName("id")
@@ -147,8 +151,10 @@ public class Movie extends BaseObservable implements Serializable {
         notifyPropertyChanged(BR.favorite);
     }
 
+    @SuppressLint("DefaultLocale")
     public String getVoteAverage() {
-        return String.format("%.1f", Float.parseFloat(mVoteAverage));
+        String voteAvg = mVoteAverage.replace(COMMA_SEP, DOT_SEP);
+        return String.format(FLOAT_FORMAT, Float.parseFloat(voteAvg));
     }
 
     public void setVoteAverage(String voteAverage) {

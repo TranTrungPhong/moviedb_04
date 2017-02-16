@@ -7,17 +7,15 @@
 
         <import type="android.view.View"/>
 
+        <import type="com.framgia.moviedb.util.LayoutManagerUtil"/>
+
+        <variable
+            name="moviesActivity"
+            type="com.framgia.moviedb.feature.movies.MoviesActivity"/>
+
         <variable
             name="title"
             type="String"/>
-
-        <variable
-            name="isLoading"
-            type="boolean"/>
-
-        <variable
-            name="isError"
-            type="boolean"/>
 
         <variable
             name="presenter"
@@ -32,14 +30,16 @@
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            bind:adapter="@{moviesActivity.verticalMovieAdapter}"
+            bind:layoutManager="@{LayoutManagerUtil.linear()}"/>
 
         <ProgressBar
             android:id="@+id/progress_loading"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:visibility="@{isLoading ? View.VISIBLE : View.GONE}"/>
+            android:visibility="@{moviesActivity.isLoading ? View.VISIBLE : View.GONE}"/>
 
         <include
             android:id="@+id/linear_retry"
@@ -47,7 +47,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            bind:isVisible="@{isError}"
+            bind:isVisible="@{moviesActivity.isError}"
             bind:presenter="@{presenter}"/>
 
         <TextView
@@ -58,7 +58,17 @@
             android:gravity="center"
             android:text="@string/message_no_item"
             android:textSize="@dimen/sp_24"
-            android:visibility="gone"/>
+            android:visibility="@{moviesActivity.isNoFavoriteItem ? View.VISIBLE : View.GONE}"/>
+
+        <TextView
+            android:id="@+id/text_message_no_result"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="@string/message_no_search_result"
+            android:textSize="@dimen/sp_24"
+            android:visibility="@{moviesActivity.isNoSearchResult ? View.VISIBLE : View.GONE}"/>
 
     </RelativeLayout>
 </layout>
